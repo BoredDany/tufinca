@@ -21,38 +21,38 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/grupo23/controllers")
-public class ControllerUser {
+public class ControllerPhoto {
     @Autowired
-    private RepositoryUser repositoryUser;
+    private RepositoryPhoto repositoryPhoto; // Cambiado a RepositoryPhoto
 
     @CrossOrigin
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> get() throws Exception {
-        Iterable<User> users = repositoryUser.findAll();
-        return StreamSupport.stream(users.spliterator(), false).collect(Collectors.toList());
+    public List<Photo> get() throws Exception {
+        Iterable<Photo> photos = repositoryPhoto.findAll(); // Cambiado a Photo
+        return StreamSupport.stream(photos.spliterator(), false).collect(Collectors.toList());
     }
     
     @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get(@PathVariable Long id) throws Exception {
-        return repositoryUser.findById(id).get();
+    public Photo get(@PathVariable Long id) throws Exception {
+        return repositoryPhoto.findById(id).get(); // Cambiado a Photo
     }
     
     @CrossOrigin
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User save(@RequestBody User user) throws Exception {
-        return repositoryUser.save(user);
+    public Photo save(@RequestBody Photo photo) throws Exception { // Cambiado a Photo
+        return repositoryPhoto.save(photo); // Cambiado a Photo
     }
 
     @CrossOrigin
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User update(@RequestBody User user) {
-        return repositoryUser.save(user);
+    public Photo update(@RequestBody Photo photo) { // Cambiado a Photo
+        return repositoryPhoto.save(photo); // Cambiado a Photo
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@PathVariable Long id) throws Exception {
-        repositoryUser.deleteById(id);
+    public void delete(@PathVariable Long id) throws Exception { // Cambiado el nombre del método a delete para reflejar mejor su función
+        repositoryPhoto.deleteById(id);
     }
 }

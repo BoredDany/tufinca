@@ -21,38 +21,38 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/grupo23/controllers")
-public class ControllerUser {
+public class ControllerProperty {
     @Autowired
-    private RepositoryUser repositoryUser;
+    private RepositoryProperty repositoryProperty; 
 
     @CrossOrigin
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> get() throws Exception {
-        Iterable<User> users = repositoryUser.findAll();
-        return StreamSupport.stream(users.spliterator(), false).collect(Collectors.toList());
+    public List<Property> get() throws Exception {
+        Iterable<Property> properties = repositoryProperty.findAll();
+        return StreamSupport.stream(properties.spliterator(), false).collect(Collectors.toList());
     }
     
     @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get(@PathVariable Long id) throws Exception {
-        return repositoryUser.findById(id).get();
+    public Property get(@PathVariable Long id) throws Exception {
+        return repositoryProperty.findById(id).get();
     }
     
     @CrossOrigin
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User save(@RequestBody User user) throws Exception {
-        return repositoryUser.save(user);
+    public Property save(@RequestBody Property property) throws Exception { 
+        return repositoryProperty.save(property); 
     }
 
     @CrossOrigin
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User update(@RequestBody User user) {
-        return repositoryUser.save(user);
+    public Property update(@RequestBody Property property) {
+        return repositoryProperty.save(property);
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@PathVariable Long id) throws Exception {
-        repositoryUser.deleteById(id);
+    public void delete(@PathVariable Long id) throws Exception {
+        repositoryProperty.deleteById(id);
     }
 }

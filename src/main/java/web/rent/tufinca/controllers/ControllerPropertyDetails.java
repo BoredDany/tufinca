@@ -21,38 +21,38 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/grupo23/controllers")
-public class ControllerUser {
+public class ControllerPropertyDetails {
     @Autowired
-    private RepositoryUser repositoryUser;
+    private RepositoryPropertyDetails repositoryPropertyDetails; // Cambiado a RepositoryPropertyDetails
 
     @CrossOrigin
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> get() throws Exception {
-        Iterable<User> users = repositoryUser.findAll();
-        return StreamSupport.stream(users.spliterator(), false).collect(Collectors.toList());
+    public List<PropertyDetails> get() throws Exception {
+        Iterable<PropertyDetails> propertyDetails = repositoryPropertyDetails.findAll(); // Cambiado a PropertyDetails
+        return StreamSupport.stream(propertyDetails.spliterator(), false).collect(Collectors.toList());
     }
     
     @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get(@PathVariable Long id) throws Exception {
-        return repositoryUser.findById(id).get();
+    public PropertyDetails get(@PathVariable Long id) throws Exception {
+        return repositoryPropertyDetails.findById(id).get(); // Cambiado a PropertyDetails
     }
     
     @CrossOrigin
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User save(@RequestBody User user) throws Exception {
-        return repositoryUser.save(user);
+    public PropertyDetails save(@RequestBody PropertyDetails propertyDetails) throws Exception { // Cambiado a PropertyDetails
+        return repositoryPropertyDetails.save(propertyDetails); // Cambiado a PropertyDetails
     }
 
     @CrossOrigin
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User update(@RequestBody User user) {
-        return repositoryUser.save(user);
+    public PropertyDetails update(@RequestBody PropertyDetails propertyDetails) { // Cambiado a PropertyDetails
+        return repositoryPropertyDetails.save(propertyDetails); // Cambiado a PropertyDetails
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@PathVariable Long id) throws Exception {
-        repositoryUser.deleteById(id);
+    public void delete(@PathVariable Long id) throws Exception { // Cambiado el nombre del método a delete para reflejar mejor su función
+        repositoryPropertyDetails.deleteById(id);
     }
 }

@@ -21,38 +21,38 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/grupo23/controllers")
-public class ControllerUser {
+public class ControllerRent {
     @Autowired
-    private RepositoryUser repositoryUser;
+    private RepositoryRent repositoryRent; // Cambiado a RepositoryRent
 
     @CrossOrigin
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> get() throws Exception {
-        Iterable<User> users = repositoryUser.findAll();
-        return StreamSupport.stream(users.spliterator(), false).collect(Collectors.toList());
+    public List<Rent> get() throws Exception {
+        Iterable<Rent> rents = repositoryRent.findAll(); // Cambiado a Rent
+        return StreamSupport.stream(rents.spliterator(), false).collect(Collectors.toList());
     }
     
     @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get(@PathVariable Long id) throws Exception {
-        return repositoryUser.findById(id).get();
+    public Rent get(@PathVariable Long id) throws Exception {
+        return repositoryRent.findById(id).get(); // Cambiado a Rent
     }
     
     @CrossOrigin
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User save(@RequestBody User user) throws Exception {
-        return repositoryUser.save(user);
+    public Rent save(@RequestBody Rent rent) throws Exception { // Cambiado a Rent
+        return repositoryRent.save(rent); // Cambiado a Rent
     }
 
     @CrossOrigin
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User update(@RequestBody User user) {
-        return repositoryUser.save(user);
+    public Rent update(@RequestBody Rent rent) { // Cambiado a Rent
+        return repositoryRent.save(rent); // Cambiado a Rent
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@PathVariable Long id) throws Exception {
-        repositoryUser.deleteById(id);
+    public void delete(@PathVariable Long id) throws Exception { // Cambiado el nombre del método a delete para reflejar mejor su función
+        repositoryRent.deleteById(id);
     }
 }

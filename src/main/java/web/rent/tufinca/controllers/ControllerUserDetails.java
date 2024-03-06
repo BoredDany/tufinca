@@ -21,38 +21,38 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/grupo23/controllers")
-public class ControllerUser {
+public class ControllerUserDetails {
     @Autowired
-    private RepositoryUser repositoryUser;
+    private RepositoryUserDetails repositoryUserDetails; 
 
     @CrossOrigin
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> get() throws Exception {
-        Iterable<User> users = repositoryUser.findAll();
-        return StreamSupport.stream(users.spliterator(), false).collect(Collectors.toList());
+    public List<UserDetails> get() throws Exception {
+        Iterable<UserDetails> userDetails = repositoryUserDetails.findAll(); 
+        return StreamSupport.stream(userDetails.spliterator(), false).collect(Collectors.toList());
     }
     
     @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get(@PathVariable Long id) throws Exception {
-        return repositoryUser.findById(id).get();
+    public UserDetails get(@PathVariable Long id) throws Exception {
+        return repositoryUserDetails.findById(id).get(); 
     }
     
     @CrossOrigin
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User save(@RequestBody User user) throws Exception {
-        return repositoryUser.save(user);
+    public UserDetails save(@RequestBody UserDetails userDetails) throws Exception { 
+        return repositoryUserDetails.save(userDetails); 
     }
 
     @CrossOrigin
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User update(@RequestBody User user) {
-        return repositoryUser.save(user);
+    public UserDetails update(@RequestBody UserDetails userDetails) { 
+        return repositoryUserDetails.save(userDetails); 
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@PathVariable Long id) throws Exception {
-        repositoryUser.deleteById(id);
+    public void delete(@PathVariable Long id) throws Exception {
+        repositoryUserDetails.deleteById(id);
     }
 }

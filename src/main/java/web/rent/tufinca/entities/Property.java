@@ -45,7 +45,7 @@ public class Property {
     @JoinColumn(name = "owner_id", referencedColumnName = "idUser", unique = false, nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "photo")
+    @OneToMany(mappedBy = "property")
     private List<Photo> photos;
 
     @OneToMany(mappedBy = "property")

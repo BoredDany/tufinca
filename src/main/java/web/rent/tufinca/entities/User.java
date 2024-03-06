@@ -37,10 +37,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Property> properties;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "renter")
     private List<Rent> reservations;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "owner")
     private List<Rent> rents;
 
     @OneToMany(mappedBy = "owner")

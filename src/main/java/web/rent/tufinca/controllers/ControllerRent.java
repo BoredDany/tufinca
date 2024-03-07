@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import web.rent.tufinca.entities.Rent;
 import web.rent.tufinca.entities.User;
+import web.rent.tufinca.repositories.RepositoryRent;
 import web.rent.tufinca.repositories.RepositoryUser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

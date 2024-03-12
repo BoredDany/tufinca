@@ -30,6 +30,6 @@ public class Photo {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "property_id", referencedColumnName = "idProperty", unique = false, nullable = false)
-    private Property property;
+    @JoinColumn(name = "property_id", referencedColumnName = "idPropertyDetail", unique = false, nullable = false)
+    private PropertyDetail propertyDetail;
 }

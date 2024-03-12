@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import web.rent.tufinca.entities.Rent;
 import web.rent.tufinca.entities.User;
 import web.rent.tufinca.repositories.RepositoryRent;
-import web.rent.tufinca.repositories.RepositoryUser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/grupo23/controllers")
+@RequestMapping("/grupo23/controllers/rent")
 public class ControllerRent {
     @Autowired
     private RepositoryRent repositoryRent; // Cambiado a RepositoryRent

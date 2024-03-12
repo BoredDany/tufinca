@@ -2,7 +2,6 @@ package web.rent.tufinca.entities;
 
 import java.util.List;
 
-import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -26,31 +25,24 @@ import lombok.Setter;
 @AllArgsConstructor
 @Where(clause = "status = 0")
 @SQLDelete(sql = "UPDATE company SET status = 1 where id = ?")
-public class Property {
+public class PropertyDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idProperty;
-    private String name;
-    private String country;
-    private String city;
-    private String latitude;
-    private String longitude;
-    private Integer price;
-    private Integer area;
+    private Long idPropertyDetail;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id", referencedColumnName = "idUser", unique = false, nullable = false)
-    private User user;
+    private Integer numToilets;
+    private Integer numRooms;
+    private Integer numKitchens;
+    private Integer numLevel;
+    private String description;
 
-    @OneToOne(mappedBy = "property")
-    @JoinColumn(name = "idPropertyDetail")
-    private PropertyDetail propertyDetail;
 
-    @OneToMany(mappedBy = "property")
-    private List<Rent> rents;
+    @OneToMany(mappedBy = "propertyDetail")
+    private List<Photo> photos;
 
-    @OneToMany(mappedBy = "property")
-    private List<RentRequest> rentRequests;
+    @OneToOne
+    @JoinColumn(name = "idProperty", unique = true, nullable = false)
+    private Property property;
 
 }

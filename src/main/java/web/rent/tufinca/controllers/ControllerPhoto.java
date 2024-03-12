@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/grupo23/controllers")
+@RequestMapping("/grupo23/controllers/photo")
 public class ControllerPhoto {
     @Autowired
     private RepositoryPhoto repositoryPhoto; // Cambiado a RepositoryPhoto

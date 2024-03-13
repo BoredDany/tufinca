@@ -31,7 +31,6 @@ public class User {
     private String password;
     private Integer phone;
     private Integer money;
-    private Integer rating;
     private String photo;
 
     @OneToMany(mappedBy = "user")

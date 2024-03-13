@@ -35,7 +35,8 @@ public class Rent {
     private String dateStart;
     private String dateEnd;
     private Integer payment;
-    private Integer rating;
+    private Integer ratingOwner;
+    private Integer ratingRenter;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "idUser", unique = false, nullable = false)

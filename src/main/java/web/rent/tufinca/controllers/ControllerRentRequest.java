@@ -7,8 +7,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import web.rent.tufinca.dtos.RentRequestDTO;
+import web.rent.tufinca.entities.Rent;
 import web.rent.tufinca.entities.RentRequest;
 import web.rent.tufinca.repositories.RepositoryRentRequest;
+import web.rent.tufinca.services.RentRequestService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,36 +27,35 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/grupo23/controllers/rentrequest")
 public class ControllerRentRequest {
     @Autowired
-    private RepositoryRentRequest repositoryRentRequest;
+    private RentRequestService rentRequestService;
 
     @CrossOrigin
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RentRequest> get() throws Exception {
-        Iterable<RentRequest> rentRequests = repositoryRentRequest.findAll();
-        return StreamSupport.stream(rentRequests.spliterator(), false).collect(Collectors.toList());
+    public List<RentRequestDTO> get() throws Exception {
+        return rentRequestService.get();
     }
     
     @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RentRequest get(@PathVariable Long id) throws Exception {
-        return repositoryRentRequest.findById(id).get();
+    public RentRequestDTO get(@PathVariable Long id) {
+        return rentRequestService.get(id);
     }
     
     @CrossOrigin
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public RentRequest save(@RequestBody RentRequest rentRequest) throws Exception {
-        return repositoryRentRequest.save(rentRequest); 
+    public RentRequestDTO save(@RequestBody RentRequestDTO rentRequestDTO) {
+        return rentRequestService.save(rentRequestDTO);
     }
 
     @CrossOrigin
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public RentRequest update(@RequestBody RentRequest rentRequest) {
-        return repositoryRentRequest.save(rentRequest); 
+    public RentRequestDTO update(@RequestBody RentRequestDTO rentRequestDTO) throws IllegalArgumentException {
+        return rentRequestService.save(rentRequestDTO);
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id) throws Exception { 
-        repositoryRentRequest.deleteById(id);
+    public void delete(@PathVariable Long id) { 
+        rentRequestService.delete(id);
     }
 }

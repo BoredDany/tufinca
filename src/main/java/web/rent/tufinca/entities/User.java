@@ -1,5 +1,6 @@
 package web.rent.tufinca.entities;
 
+import java.util.UUID;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import jakarta.persistence.Entity;
@@ -26,12 +27,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser;
+
     private String name;
     private String email;
     private String password;
     private Integer phone;
     private Integer money;
     private String photo;
+    private Status status;
 
     @OneToMany(mappedBy = "user")
     private List<Property> properties;

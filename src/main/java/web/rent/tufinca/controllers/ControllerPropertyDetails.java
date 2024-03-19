@@ -7,14 +7,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import web.rent.tufinca.entities.PropertyDetail;
-import web.rent.tufinca.repositories.RepositoryPropertyDetail;
+import web.rent.tufinca.dtos.PropertyDetailDTO;
+import web.rent.tufinca.services.PropertyDetailService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,37 +20,37 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @RequestMapping("/grupo23/controllers/propertydetails")
 public class ControllerPropertyDetails {
+
     @Autowired
-    private RepositoryPropertyDetail repositoryPropertyDetail; // Cambiado a RepositoryPropertyDetails
+    private PropertyDetailService propertyDetailService; 
 
     @CrossOrigin
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<PropertyDetail> get() throws Exception {
-        Iterable<PropertyDetail> propertyDetails = repositoryPropertyDetail.findAll(); // Cambiado a PropertyDetails
-        return StreamSupport.stream(propertyDetails.spliterator(), false).collect(Collectors.toList());
+    public List<PropertyDetailDTO> get() throws Exception {
+        return propertyDetailService.get();
     }
     
     @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PropertyDetail get(@PathVariable Long id) throws Exception {
-        return repositoryPropertyDetail.findById(id).get(); // Cambiado a PropertyDetails
+    public PropertyDetailDTO get(@PathVariable Long id) throws Exception {
+        return propertyDetailService.get(id);
     }
     
     @CrossOrigin
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PropertyDetail save(@RequestBody PropertyDetail propertyDetails) throws Exception { // Cambiado a PropertyDetails
-        return repositoryPropertyDetail.save(propertyDetails); // Cambiado a PropertyDetails
+    public PropertyDetailDTO save(@RequestBody PropertyDetailDTO propertyDetailDTO)  {
+        return propertyDetailService.save(propertyDetailDTO); 
     }
 
     @CrossOrigin
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PropertyDetail update(@RequestBody PropertyDetail propertyDetails) { // Cambiado a PropertyDetails
-        return repositoryPropertyDetail.save(propertyDetails); // Cambiado a PropertyDetails
+    public PropertyDetailDTO update(@RequestBody PropertyDetailDTO propertyDetailDTO) throws IllegalArgumentException { 
+        return propertyDetailService.update(propertyDetailDTO); 
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id) throws Exception { // Cambiado el nombre del método a delete para reflejar mejor su función
-        repositoryPropertyDetail.deleteById(id);
+    public void delete(@PathVariable Long id) throws Exception { 
+        propertyDetailService.delete(id);
     }
 }

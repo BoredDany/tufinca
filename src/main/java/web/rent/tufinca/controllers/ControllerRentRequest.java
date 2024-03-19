@@ -8,17 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import web.rent.tufinca.dtos.RentRequestDTO;
-import web.rent.tufinca.entities.Rent;
-import web.rent.tufinca.entities.RentRequest;
-import web.rent.tufinca.repositories.RepositoryRentRequest;
 import web.rent.tufinca.services.RentRequestService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -55,7 +49,7 @@ public class ControllerRentRequest {
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id) { 
+    public void delete(@PathVariable Long id) {
         rentRequestService.delete(id);
     }
 }

@@ -25,7 +25,7 @@ public class ControllerUser {
     private UserService userService;
 
     @CrossOrigin
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserDTO> get() {
         return userService.get();
     }

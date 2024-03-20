@@ -26,7 +26,9 @@ public class UserService {
     public UserDTO get (Long id){
         Optional<User> userOptional = userRepository.findById(id);
         UserDTO userDTO = null;
-        if (userOptional != null){
+
+        // Cuando se declare Optional<> entonces hay que validarlo de esta forma
+        if (userOptional.isPresent()){
             userDTO = modelMapper.map(userOptional.get(), UserDTO.class);
         }
         return userDTO;

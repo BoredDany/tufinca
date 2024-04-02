@@ -23,7 +23,7 @@ public class PropertyService {
     public PropertyDTO get(Long id){
         Optional<Property> propertyOptional = repositoryProperty.findById(id);
         PropertyDTO propertyDTO = null;
-        if (propertyOptional != null){
+        if (propertyOptional.isPresent()){
             propertyDTO = modelMapper.map(propertyOptional.get(), PropertyDTO.class);
         }
         return propertyDTO;

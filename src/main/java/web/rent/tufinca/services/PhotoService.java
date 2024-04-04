@@ -20,9 +20,6 @@ public class PhotoService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public PhotoService(RepositoryPhoto repositoryPhoto2, ModelMapper modelMapper2) {
-        //TODO Auto-generated constructor stub
-    }
 
     public PhotoDTO get(Long id){
         Optional<Photo> photoOptional = repositoryPhoto.findById(id);

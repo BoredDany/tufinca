@@ -1,101 +1,106 @@
 package web.rent.tufinca.servicesTests;
 
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
+
 import web.rent.tufinca.dtos.UserDTO;
+import web.rent.tufinca.entities.Status;
 import web.rent.tufinca.entities.User;
 import web.rent.tufinca.repositories.RepositoryUser;
 import web.rent.tufinca.services.UserService;
 
 class UserServiceTest {
 
+    @InjectMocks
     private UserService userService;
-    private RepositoryUser repositoryUser;
+
+    @Mock
+    private RepositoryUser userRepository;
+
+    @Mock
     private ModelMapper modelMapper;
+
+    private UserDTO userDTO;
+    private User user;
 
     @BeforeEach
     void setUp() {
-        repositoryUser = mock(RepositoryUser.class);
-        modelMapper = mock(ModelMapper.class);
-        userService = new UserService(repositoryUser, modelMapper);
+        MockitoAnnotations.initMocks(this);
+
+        userDTO = new UserDTO();
+        userDTO.setIdUser(1L);
+
+        user = new User();
+        user.setIdUser(1L);
+        user.setStatus(Status.ACTIVE);
     }
 
+    //Prueba 56: Verificar que se obtiene un usuario por su id, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, UserService, UserDTO, User, RepositoryUser
     @Test
     void testGetById() {
-        User user = new User();
-        user.setIdUser(1L);
-        when(repositoryUser.findById(1L)).thenReturn(Optional.of(user));
-        when(modelMapper.map(user, UserDTO.class)).thenReturn(new UserDTO());
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(modelMapper.map(user, UserDTO.class)).thenReturn(userDTO);
 
         UserDTO result = userService.get(1L);
 
-        assertNotNull(result);
-        assertEquals(user.getIdUser(), result.getIdUser());
+        assertEquals(userDTO, result);
     }
 
+    //Prueba 57: Verificar que se obtienen todos los usuarios, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, UserService, UserDTO, User, RepositoryUser
     @Test
     void testGetAll() {
-        User user1 = new User();
-        user1.setIdUser(1L);
-        List<User> userList = Arrays.asList(user1);
-        when(repositoryUser.findAll()).thenReturn(userList);
-        when(modelMapper.map(user1, UserDTO.class)).thenReturn(new UserDTO());
+        when(userRepository.findAll()).thenReturn(Arrays.asList(user));
+        when(modelMapper.map(user, UserDTO.class)).thenReturn(userDTO);
 
-        List<UserDTO> resultList = userService.get();
-
-        assertFalse(resultList.isEmpty());
-        assertEquals(user1.getIdUser(), resultList.get(0).getIdUser());
+        assertEquals(Arrays.asList(userDTO), userService.get());
     }
 
+    //Prueba 58: Verificar que se guarda un usuario, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, UserService, UserDTO, User, RepositoryUser
     @Test
     void testSave() {
-        User user = new User();
-        user.setIdUser(1L);
-        UserDTO userDTO = new UserDTO();
-        userDTO.setIdUser(1L);
-
-        when(repositoryUser.save(any(User.class))).thenReturn(user);
         when(modelMapper.map(userDTO, User.class)).thenReturn(user);
-        when(modelMapper.map(user, UserDTO.class)).thenReturn(userDTO);
+        when(userRepository.save(user)).thenReturn(user);
 
-        UserDTO savedDTO = userService.save(userDTO);
+        UserDTO result = userService.save(userDTO);
 
-        assertNotNull(savedDTO);
-        assertEquals(user.getIdUser(), savedDTO.getIdUser());
+        assertEquals(userDTO, result);
     }
 
+    //Prueba 59: Verificar que se actualiza un usuario, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, UserService, UserDTO, User, RepositoryUser
     @Test
     void testUpdate() {
-        User user = new User();
-        user.setIdUser(1L);
-        UserDTO userDTO = new UserDTO();
-        userDTO.setIdUser(1L);
-
-        when(repositoryUser.findById(1L)).thenReturn(Optional.of(user));
-        when(repositoryUser.save(any(User.class))).thenReturn(user);
-        when(modelMapper.map(userDTO, User.class)).thenReturn(user);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(modelMapper.map(user, UserDTO.class)).thenReturn(userDTO);
+        when(modelMapper.map(userDTO, User.class)).thenReturn(user);
+        when(userRepository.save(user)).thenReturn(user);
 
-        UserDTO updatedDTO = userService.update(userDTO);
+        UserDTO result = userService.update(userDTO);
 
-        assertNotNull(updatedDTO);
-        assertEquals(user.getIdUser(), updatedDTO.getIdUser());
+        assertEquals(userDTO, result);
     }
 
+    //Prueba 60: Verificar que se elimina un usuario, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, UserService, RepositoryUser
     @Test
     void testDelete() {
-        doNothing().when(repositoryUser).deleteById(1L);
+        doNothing().when(userRepository).deleteById(1L);
 
         userService.delete(1L);
 
-        verify(repositoryUser).deleteById(1L);
+        verify(userRepository, times(1)).deleteById(1L);
     }
 }

@@ -1,14 +1,17 @@
 package web.rent.tufinca.servicesTests;
 
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 
 import web.rent.tufinca.dtos.PhotoDTO;
 import web.rent.tufinca.entities.Photo;
@@ -17,81 +20,85 @@ import web.rent.tufinca.services.PhotoService;
 
 class PhotoServiceTest {
 
+    @InjectMocks
     private PhotoService photoService;
+
+    @Mock
     private RepositoryPhoto repositoryPhoto;
+
+    @Mock
     private ModelMapper modelMapper;
+
+    private PhotoDTO photoDTO;
+    private Photo photo;
 
     @BeforeEach
     void setUp() {
-        repositoryPhoto = mock(RepositoryPhoto.class);
-        modelMapper = mock(ModelMapper.class);  // Mock ModelMapper también
-        photoService = new PhotoService(repositoryPhoto, modelMapper); // Suponiendo que existe un constructor adecuado en PhotoService
+        MockitoAnnotations.initMocks(this);
+
+        photoDTO = new PhotoDTO();
+        photoDTO.setIdPhoto(1L);
+
+        photo = new Photo();
+        photo.setIdPhoto(1L);
     }
 
+    //Prueba 31: Verificar que se obtiene una foto por su id, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, PhotoService, PhotoDTO, Photo, RepositoryPhoto
     @Test
     void testGetById() {
-        Photo photo = new Photo();
-        photo.setIdPhoto(1L);
         when(repositoryPhoto.findById(1L)).thenReturn(Optional.of(photo));
-        when(modelMapper.map(any(), eq(PhotoDTO.class))).thenReturn(new PhotoDTO()); // Mock the mapping
+        when(modelMapper.map(photo, PhotoDTO.class)).thenReturn(photoDTO);
 
         PhotoDTO result = photoService.get(1L);
 
-        assertNotNull(result);
-        assertEquals(photo.getIdPhoto(), result.getIdPhoto());
+        assertEquals(photoDTO, result);
     }
 
+    //Prueba 32: Verificar que se obtienen todas las fotos, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, PhotoService, PhotoDTO, Photo, RepositoryPhoto
     @Test
     void testGetAll() {
-        Photo photo = new Photo();
-        photo.setIdPhoto(1L);
         when(repositoryPhoto.findAll()).thenReturn(Arrays.asList(photo));
-        when(modelMapper.map(any(), eq(PhotoDTO.class))).thenReturn(new PhotoDTO()); // Mock the mapping
+        when(modelMapper.map(photo, PhotoDTO.class)).thenReturn(photoDTO);
 
-        List<PhotoDTO> result = photoService.get();
-
-        assertFalse(result.isEmpty());
-        assertEquals(photo.getIdPhoto(), result.get(0).getIdPhoto());
+        assertEquals(Arrays.asList(photoDTO), photoService.get());
     }
 
+    //Prueba 33: Verificar que se guarda una foto, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, PhotoService, PhotoDTO, Photo, RepositoryPhoto
     @Test
     void testSave() {
-        Photo photo = new Photo();
-        photo.setIdPhoto(1L);
-        when(repositoryPhoto.save(any(Photo.class))).thenReturn(photo);
-        when(modelMapper.map(any(), eq(Photo.class))).thenReturn(photo); // Mock the mapping to Photo
-        when(modelMapper.map(any(), eq(PhotoDTO.class))).thenReturn(new PhotoDTO()); // Mock the mapping to PhotoDTO
+        when(modelMapper.map(photoDTO, Photo.class)).thenReturn(photo);
+        when(repositoryPhoto.save(photo)).thenReturn(photo);
 
-        PhotoDTO photoDTO = new PhotoDTO();
-        photoDTO = photoService.save(photoDTO);
+        PhotoDTO result = photoService.save(photoDTO);
 
-        assertNotNull(photoDTO);
-        assertEquals(photo.getIdPhoto(), photoDTO.getIdPhoto());
+        assertEquals(photoDTO, result);
     }
 
+    //Prueba 34: Verificar que se actualiza una foto, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, PhotoService, PhotoDTO, Photo, RepositoryPhoto
     @Test
     void testUpdate() {
-        Photo photo = new Photo();
-        photo.setIdPhoto(1L);
         when(repositoryPhoto.findById(1L)).thenReturn(Optional.of(photo));
-        when(repositoryPhoto.save(any(Photo.class))).thenReturn(photo);
-        when(modelMapper.map(any(), eq(Photo.class))).thenReturn(photo); // Mock the mapping to Photo
-        when(modelMapper.map(any(), eq(PhotoDTO.class))).thenReturn(new PhotoDTO()); // Mock the mapping to PhotoDTO
+        when(modelMapper.map(photo, PhotoDTO.class)).thenReturn(photoDTO);
+        when(modelMapper.map(photoDTO, Photo.class)).thenReturn(photo);
+        when(repositoryPhoto.save(photo)).thenReturn(photo);
 
-        PhotoDTO photoDTO = new PhotoDTO();
-        photoDTO.setIdPhoto(1L);
-        photoDTO = photoService.update(photoDTO);
+        PhotoDTO result = photoService.update(photoDTO);
 
-        assertNotNull(photoDTO);
-        assertEquals(photo.getIdPhoto(), photoDTO.getIdPhoto());
+        assertEquals(photoDTO, result);
     }
 
+    //Prueba 35: Verificar que se elimina una foto, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, PhotoService, RepositoryPhoto
     @Test
     void testDelete() {
         doNothing().when(repositoryPhoto).deleteById(1L);
 
         photoService.delete(1L);
 
-        verify(repositoryPhoto).deleteById(1L);
+        verify(repositoryPhoto, times(1)).deleteById(1L);
     }
 }

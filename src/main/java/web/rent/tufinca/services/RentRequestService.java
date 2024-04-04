@@ -20,9 +20,6 @@ public class RentRequestService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public RentRequestService(RepositoryRentRequest repositoryRentRequest2, ModelMapper modelMapper2) {
-        //TODO Auto-generated constructor stub
-    }
 
     public RentRequestDTO get(Long id){
         Optional<RentRequest> rentRequestOptional = repositoryRentRequest.findById(id);

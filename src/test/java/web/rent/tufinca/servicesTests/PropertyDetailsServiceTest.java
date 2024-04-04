@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import web.rent.tufinca.dtos.PropertyDetailDTO;
@@ -15,83 +14,93 @@ import web.rent.tufinca.entities.PropertyDetail;
 import web.rent.tufinca.repositories.RepositoryPropertyDetail;
 import web.rent.tufinca.services.PropertyDetailService;
 
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+
 class PropertyDetailsServiceTest {
 
+    @InjectMocks
     private PropertyDetailService propertyDetailService;
+
+    @Mock
     private RepositoryPropertyDetail repositoryPropertyDetail;
+
+    @Mock
     private ModelMapper modelMapper;
+
+    private PropertyDetailDTO propertyDetailDTO;
+    private PropertyDetail propertyDetail;
 
     @BeforeEach
     void setUp() {
-        repositoryPropertyDetail = mock(RepositoryPropertyDetail.class);
-        modelMapper = mock(ModelMapper.class);  // Usar mock para ModelMapper
-        propertyDetailService = new PropertyDetailService(repositoryPropertyDetail, modelMapper); // Instanciar el servicio con los mocks
+        MockitoAnnotations.initMocks(this);
+
+        propertyDetailDTO = new PropertyDetailDTO();
+        propertyDetailDTO.setIdPropertyDetail(1L);
+
+        propertyDetail = new PropertyDetail();
+        propertyDetail.setIdPropertyDetail(1L);
     }
 
+    //Prueba 36: Verificar que se obtiene un detalle de propiedad por su id, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, PropertyDetailService, PropertyDetailDTO, PropertyDetail, RepositoryPropertyDetail
     @Test
     void testGetById() {
-        PropertyDetail propertyDetail = new PropertyDetail();
-        propertyDetail.setIdPropertyDetail(1L);
         when(repositoryPropertyDetail.findById(1L)).thenReturn(Optional.of(propertyDetail));
-        when(modelMapper.map(any(), eq(PropertyDetailDTO.class))).thenReturn(new PropertyDetailDTO()); // Mockear la conversión
+        when(modelMapper.map(propertyDetail, PropertyDetailDTO.class)).thenReturn(propertyDetailDTO);
 
         PropertyDetailDTO result = propertyDetailService.get(1L);
 
-        assertNotNull(result);
-        assertEquals(propertyDetail.getIdPropertyDetail(), result.getIdPropertyDetail());
+        assertEquals(propertyDetailDTO, result);
     }
 
+    //Prueba 37: Verificar que se obtienen todos los detalles de propiedad, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, PropertyDetailService, PropertyDetailDTO, PropertyDetail, RepositoryPropertyDetail
     @Test
     void testGetAll() {
-        PropertyDetail propertyDetail = new PropertyDetail();
-        propertyDetail.setIdPropertyDetail(1L);
         when(repositoryPropertyDetail.findAll()).thenReturn(Arrays.asList(propertyDetail));
-        when(modelMapper.map(any(), eq(PropertyDetailDTO.class))).thenReturn(new PropertyDetailDTO()); // Mockear la conversión
+        when(modelMapper.map(propertyDetail, PropertyDetailDTO.class)).thenReturn(propertyDetailDTO);
 
-        List<PropertyDetailDTO> result = propertyDetailService.get();
-
-        assertFalse(result.isEmpty());
-        assertEquals(propertyDetail.getIdPropertyDetail(), result.get(0).getIdPropertyDetail());
+        assertEquals(Arrays.asList(propertyDetailDTO), propertyDetailService.get());
     }
 
+    //Prueba 38: Verificar que se guarda un detalle de propiedad, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, PropertyDetailService, PropertyDetailDTO, PropertyDetail, RepositoryPropertyDetail
     @Test
     void testSave() {
-        PropertyDetail propertyDetail = new PropertyDetail();
-        propertyDetail.setIdPropertyDetail(1L);
-        when(repositoryPropertyDetail.save(any(PropertyDetail.class))).thenReturn(propertyDetail);
-        when(modelMapper.map(any(), eq(PropertyDetail.class))).thenReturn(propertyDetail); // Mockear la conversión a PropertyDetail
-        when(modelMapper.map(any(), eq(PropertyDetailDTO.class))).thenReturn(new PropertyDetailDTO()); // Mockear la conversión a PropertyDetailDTO
+        when(modelMapper.map(propertyDetailDTO, PropertyDetail.class)).thenReturn(propertyDetail);
+        when(repositoryPropertyDetail.save(propertyDetail)).thenReturn(propertyDetail);
 
-        PropertyDetailDTO propertyDetailDTO = new PropertyDetailDTO();
-        propertyDetailDTO = propertyDetailService.save(propertyDetailDTO);
+        PropertyDetailDTO result = propertyDetailService.save(propertyDetailDTO);
 
-        assertNotNull(propertyDetailDTO);
-        assertEquals(propertyDetail.getIdPropertyDetail(), propertyDetailDTO.getIdPropertyDetail());
+        assertEquals(propertyDetailDTO, result);
     }
 
+    //Prueba 39: Verificar que se actualiza un detalle de propiedad, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, PropertyDetailService, PropertyDetailDTO, PropertyDetail, RepositoryPropertyDetail
     @Test
     void testUpdate() {
-        PropertyDetail propertyDetail = new PropertyDetail();
-        propertyDetail.setIdPropertyDetail(1L);
         when(repositoryPropertyDetail.findById(1L)).thenReturn(Optional.of(propertyDetail));
-        when(repositoryPropertyDetail.save(any(PropertyDetail.class))).thenReturn(propertyDetail);
-        when(modelMapper.map(any(), eq(PropertyDetail.class))).thenReturn(propertyDetail); // Mockear la conversión a PropertyDetail
-        when(modelMapper.map(any(), eq(PropertyDetailDTO.class))).thenReturn(new PropertyDetailDTO()); // Mockear la conversión a PropertyDetailDTO
+        when(modelMapper.map(propertyDetail, PropertyDetailDTO.class)).thenReturn(propertyDetailDTO);
+        when(modelMapper.map(propertyDetailDTO, PropertyDetail.class)).thenReturn(propertyDetail);
+        when(repositoryPropertyDetail.save(propertyDetail)).thenReturn(propertyDetail);
 
-        PropertyDetailDTO propertyDetailDTO = new PropertyDetailDTO();
-        propertyDetailDTO.setIdPropertyDetail(1L);
-        propertyDetailDTO = propertyDetailService.update(propertyDetailDTO);
+        PropertyDetailDTO result = propertyDetailService.update(propertyDetailDTO);
 
-        assertNotNull(propertyDetailDTO);
-        assertEquals(propertyDetail.getIdPropertyDetail(), propertyDetailDTO.getIdPropertyDetail());
+        assertEquals(propertyDetailDTO, result);
     }
 
+    //Prueba 40: Verificar que se elimina un detalle de propiedad, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, PropertyDetailService, PropertyDetailDTO, PropertyDetail, RepositoryPropertyDetail
     @Test
     void testDelete() {
         doNothing().when(repositoryPropertyDetail).deleteById(1L);
 
         propertyDetailService.delete(1L);
 
-        verify(repositoryPropertyDetail).deleteById(1L);
+        verify(repositoryPropertyDetail, times(1)).deleteById(1L);
     }
 }

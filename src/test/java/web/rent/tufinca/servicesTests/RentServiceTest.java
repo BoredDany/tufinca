@@ -1,14 +1,17 @@
 package web.rent.tufinca.servicesTests;
 
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 
 import web.rent.tufinca.dtos.RentDTO;
 import web.rent.tufinca.entities.Rent;
@@ -17,83 +20,85 @@ import web.rent.tufinca.services.RentService;
 
 class RentServiceTest {
 
+    @InjectMocks
     private RentService rentService;
+
+    @Mock
     private RepositoryRent repositoryRent;
+
+    @Mock
     private ModelMapper modelMapper;
+
+    private RentDTO rentDTO;
+    private Rent rent;
 
     @BeforeEach
     void setUp() {
-        repositoryRent = mock(RepositoryRent.class);
-        modelMapper = mock(ModelMapper.class); // Mock el ModelMapper
-        rentService = new RentService(repositoryRent, modelMapper); // Inicializa rentService
+        MockitoAnnotations.initMocks(this);
+
+        rentDTO = new RentDTO();
+        rentDTO.setIdRent(1L);
+
+        rent = new Rent();
+        rent.setIdRent(1L);
     }
 
+    //Prueba 51: Verificar que se obtiene un alquiler por su id, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, RentService, RentDTO, Rent, RepositoryRent
     @Test
     void testGetById() {
-        Rent rent = new Rent();
-        rent.setIdRent(1L);
         when(repositoryRent.findById(1L)).thenReturn(Optional.of(rent));
-        when(modelMapper.map(rent, RentDTO.class)).thenReturn(new RentDTO());
+        when(modelMapper.map(rent, RentDTO.class)).thenReturn(rentDTO);
 
         RentDTO result = rentService.get(1L);
 
-        assertNotNull(result);
-        assertEquals(rent.getIdRent(), result.getIdRent());
+        assertEquals(rentDTO, result);
     }
 
+    //Prueba 52: Verificar que se obtienen todos los alquileres, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, RentService, RentDTO, Rent, RepositoryRent
     @Test
     void testGetAll() {
-        Rent rent1 = new Rent();
-        rent1.setIdRent(1L);
-        List<Rent> rentList = Arrays.asList(rent1);
-        when(repositoryRent.findAll()).thenReturn(rentList);
-        when(modelMapper.map(rent1, RentDTO.class)).thenReturn(new RentDTO());
+        when(repositoryRent.findAll()).thenReturn(Arrays.asList(rent));
+        when(modelMapper.map(rent, RentDTO.class)).thenReturn(rentDTO);
 
-        List<RentDTO> resultList = rentService.get();
-
-        assertFalse(resultList.isEmpty());
-        assertEquals(rent1.getIdRent(), resultList.get(0).getIdRent());
+        assertEquals(Arrays.asList(rentDTO), rentService.get());
     }
 
+    //Prueba 53: Verificar que se guarda un alquiler, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, RentService, RentDTO, Rent, RepositoryRent
     @Test
     void testSave() {
-        Rent rent = new Rent();
-        rent.setIdRent(1L);
-        RentDTO rentDTO = new RentDTO();
-        when(repositoryRent.save(any(Rent.class))).thenReturn(rent);
         when(modelMapper.map(rentDTO, Rent.class)).thenReturn(rent);
-        when(modelMapper.map(rent, RentDTO.class)).thenReturn(rentDTO);
+        when(repositoryRent.save(rent)).thenReturn(rent);
 
-        RentDTO savedDTO = rentService.save(rentDTO);
+        RentDTO result = rentService.save(rentDTO);
 
-        assertNotNull(savedDTO);
-        assertEquals(rent.getIdRent(), savedDTO.getIdRent());
+        assertEquals(rentDTO, result);
     }
 
+    //Prueba 54: Verificar que se actualiza un alquiler, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, ModelMapper, RentService, RentDTO, Rent, RepositoryRent
     @Test
     void testUpdate() {
-        Rent rent = new Rent();
-        rent.setIdRent(1L);
-        RentDTO rentDTO = new RentDTO();
-        rentDTO.setIdRent(1L);
-
         when(repositoryRent.findById(1L)).thenReturn(Optional.of(rent));
-        when(repositoryRent.save(any(Rent.class))).thenReturn(rent);
-        when(modelMapper.map(rentDTO, Rent.class)).thenReturn(rent);
         when(modelMapper.map(rent, RentDTO.class)).thenReturn(rentDTO);
+        when(modelMapper.map(rentDTO, Rent.class)).thenReturn(rent);
+        when(repositoryRent.save(rent)).thenReturn(rent);
 
-        RentDTO updatedDTO = rentService.update(rentDTO);
+        RentDTO result = rentService.update(rentDTO);
 
-        assertNotNull(updatedDTO);
-        assertEquals(rent.getIdRent(), updatedDTO.getIdRent());
+        assertEquals(rentDTO, result);
     }
 
+    //Prueba 55: Verificar que se elimina un alquiler, creado por: Daniela Martinez, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Mockito, RentService, RepositoryRent
     @Test
     void testDelete() {
         doNothing().when(repositoryRent).deleteById(1L);
 
         rentService.delete(1L);
 
-        verify(repositoryRent).deleteById(1L);
+        verify(repositoryRent, times(1)).deleteById(1L);
     }
 }

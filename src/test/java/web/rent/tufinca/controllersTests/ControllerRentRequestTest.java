@@ -2,7 +2,9 @@ package web.rent.tufinca.controllersTests;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import web.rent.tufinca.controllers.ControllerRentRequest;
 import web.rent.tufinca.dtos.RentRequestDTO;
@@ -38,6 +42,8 @@ class ControllerRentRequestTest {
         rentRequestDTO.setPrice(500);
     }
 
+    //Prueba 16: Verificar que se obtienen todas las solicitudes de alquiler, creado por: Santiago Castro, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Spring Boot Test, Mockito, JsonPath, RenRequestService, RentRequestDTO, MockMvc
     @Test
     void testGetAllRentRequests() throws Exception {
         List<RentRequestDTO> rentRequests = Arrays.asList(rentRequestDTO);
@@ -48,6 +54,8 @@ class ControllerRentRequestTest {
                .andExpect(jsonPath("$[0].price").value(500));
     }
 
+    //Prueba 17: Verificar que se obtiene una solicitud de alquiler por su id, creado por: Santiago Castro, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Spring Boot Test, Mockito, JsonPath, RenRequestService, RentRequestDTO, MockMvc
     @Test
     void testGetRentRequestById() throws Exception {
         given(rentRequestService.get(1L)).willReturn(rentRequestDTO);
@@ -57,6 +65,8 @@ class ControllerRentRequestTest {
                .andExpect(jsonPath("$.price").value(500));
     }
 
+    //Prueba 18: Verificar que se guarda una solicitud de alquiler, creado por: Santiago Castro, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Spring Boot Test, Mockito, JsonPath, RenRequestService, RentRequestDTO, MockMvc
     @Test
     void testSaveRentRequest() throws Exception {
         given(rentRequestService.save(any(RentRequestDTO.class))).willReturn(rentRequestDTO);
@@ -68,17 +78,26 @@ class ControllerRentRequestTest {
                .andExpect(jsonPath("$.price").value(500));
     }
 
+    //Prueba 19: Verificar que se actualiza una solicitud de alquiler, creado por: Santiago Castro, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Spring Boot Test, Mockito, JsonPath, ObjectMapper, RenRequestService, RentRequestDTO, MockMvc
     @Test
     void testUpdateRentRequest() throws Exception {
-        given(rentRequestService.save(any(RentRequestDTO.class))).willReturn(rentRequestDTO);
+        RentRequestDTO rentRequestUpdatedDTO = new RentRequestDTO();
+        rentRequestUpdatedDTO.setIdRentRequest(1L);
+        rentRequestUpdatedDTO.setNumPeople(400);
+        rentRequestUpdatedDTO.setPrice(500);
+        
+        given(rentRequestService.save(any(RentRequestDTO.class))).willReturn(rentRequestUpdatedDTO);
 
         mockMvc.perform(put("/grupo23/controllers/rentrequest")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"numPeople\":5,\"price\":600}"))
+                .content(new ObjectMapper().writeValueAsString(rentRequestDTO)))
                .andExpect(status().isOk())
-               .andExpect(jsonPath("$.price").value(600));
+               .andExpect(jsonPath("$.numPeople").value(400));
     }
 
+    //Prueba 20: Verificar que se elimina una solicitud de alquiler, creado por: Santiago Castro, ejecutado por Daniela Martínez
+    // Dependencies: JUnit 5, Spring Boot Test, Mockito, RentRequestService, MockMvc
     @Test
     void testDeleteRentRequest() throws Exception {
         willDoNothing().given(rentRequestService).delete(1L);

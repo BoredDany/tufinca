@@ -23,9 +23,6 @@ public class UserService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public UserService(RepositoryUser repositoryUser, ModelMapper modelMapper2) {
-        //TODO Auto-generated constructor stub
-    }
 
     public UserDTO get (Long id){
         Optional<User> userOptional = userRepository.findById(id);

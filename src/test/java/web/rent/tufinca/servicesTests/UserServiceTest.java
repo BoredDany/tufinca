@@ -1,4 +1,4 @@
-package web.rent.tufinca.services;
+package web.rent.tufinca.servicesTests;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,8 +13,9 @@ import java.util.Optional;
 import web.rent.tufinca.dtos.UserDTO;
 import web.rent.tufinca.entities.User;
 import web.rent.tufinca.repositories.RepositoryUser;
+import web.rent.tufinca.services.UserService;
 
-class UserServiceT {
+class UserServiceTest {
 
     private UserService userService;
     private RepositoryUser repositoryUser;
@@ -24,7 +25,6 @@ class UserServiceT {
     void setUp() {
         repositoryUser = mock(RepositoryUser.class);
         modelMapper = new ModelMapper();
-        userService = new UserService(repositoryUser, modelMapper);
     }
 
     @Test

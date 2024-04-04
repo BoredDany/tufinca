@@ -1,10 +1,11 @@
-package web.rent.tufinca.entities;
-
+package web.rent.tufinca.entitiesTests;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PropertyT {
+import web.rent.tufinca.entities.Property;
+
+class PropertyTest {
 
     private Property property;
 

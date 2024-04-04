@@ -1,4 +1,4 @@
-package web.rent.tufinca.services;
+package web.rent.tufinca.servicesTests;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,8 +12,9 @@ import java.util.Optional;
 import web.rent.tufinca.dtos.PhotoDTO;
 import web.rent.tufinca.entities.Photo;
 import web.rent.tufinca.repositories.RepositoryPhoto;
+import web.rent.tufinca.services.PhotoService;
 
-class PhotoServiceT {
+class PhotoServiceTest {
 
     private PhotoService photoService;
     private RepositoryPhoto repositoryPhoto;
@@ -23,7 +24,6 @@ class PhotoServiceT {
     void setUp() {
         repositoryPhoto = mock(RepositoryPhoto.class);
         modelMapper = new ModelMapper();
-        photoService = new PhotoService(repositoryPhoto, modelMapper);
     }
 
     @Test

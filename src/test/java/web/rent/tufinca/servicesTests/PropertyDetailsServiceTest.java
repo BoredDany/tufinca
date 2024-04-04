@@ -1,4 +1,4 @@
-package web.rent.tufinca.services;
+package web.rent.tufinca.servicesTests;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,8 +12,10 @@ import java.util.Optional;
 import web.rent.tufinca.dtos.PropertyDetailDTO;
 import web.rent.tufinca.entities.PropertyDetail;
 import web.rent.tufinca.repositories.RepositoryPropertyDetail;
+import web.rent.tufinca.services.PropertyDetailService;
 
-class PropertyDetailServiceT {
+
+class PropertyDetailsServiceTest {
 
     private PropertyDetailService propertyDetailService;
     private RepositoryPropertyDetail repositoryPropertyDetail;
@@ -23,7 +25,6 @@ class PropertyDetailServiceT {
     void setUp() {
         repositoryPropertyDetail = mock(RepositoryPropertyDetail.class);
         modelMapper = new ModelMapper();
-        propertyDetailService = new PropertyDetailService(repositoryPropertyDetail, modelMapper);
     }
 
     @Test

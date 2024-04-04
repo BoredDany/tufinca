@@ -1,4 +1,4 @@
-package web.rent.tufinca.controllers;
+package web.rent.tufinca.controllersTests;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import web.rent.tufinca.controllers.ControllerPropertyDetails;
 import web.rent.tufinca.dtos.PropertyDetailDTO;
 import web.rent.tufinca.services.PropertyDetailService;
 
@@ -18,8 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @WebMvcTest(ControllerPropertyDetails.class)
-class ControllerPropertyDetailsT {
-
+public class ControllerPropertyDetailsTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -90,5 +91,3 @@ class ControllerPropertyDetailsT {
         verify(propertyDetailService).delete(1L);
     }
 }
-
-// Revisar el error con android porque no lo logro corregir por el coflicto por la simulacion del servidor con MockBean y WebMvcTest

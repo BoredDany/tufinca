@@ -1,4 +1,4 @@
-package web.rent.tufinca.controllers;
+package web.rent.tufinca.controllersTests;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import web.rent.tufinca.controllers.ControllerRentRequest;
 import web.rent.tufinca.dtos.RentRequestDTO;
 import web.rent.tufinca.services.RentRequestService;
 
@@ -18,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @WebMvcTest(ControllerRentRequest.class)
-class ControllerRentRequestT {
+class ControllerRentRequestTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -87,3 +89,4 @@ class ControllerRentRequestT {
         verify(rentRequestService).delete(1L);
     }
 }
+

@@ -1,4 +1,4 @@
-package web.rent.tufinca.services;
+package web.rent.tufinca.servicesTests;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,8 +13,9 @@ import java.util.Optional;
 import web.rent.tufinca.dtos.PropertyDTO;
 import web.rent.tufinca.entities.Property;
 import web.rent.tufinca.repositories.RepositoryProperty;
+import web.rent.tufinca.services.PropertyService;
 
-class PropertyServiceT {
+class PropertyServiceTest {
 
     private PropertyService propertyService;
     private RepositoryProperty repositoryProperty;
@@ -24,7 +25,6 @@ class PropertyServiceT {
     void setUp() {
         repositoryProperty = mock(RepositoryProperty.class);
         modelMapper = new ModelMapper();
-        propertyService = new PropertyService(repositoryProperty, modelMapper);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package web.rent.tufinca.controllers;
+package web.rent.tufinca.controllersTests;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import web.rent.tufinca.controllers.ControllerUser;
 import web.rent.tufinca.dtos.UserDTO;
 import web.rent.tufinca.services.UserService;
 
@@ -18,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @WebMvcTest(ControllerUser.class)
-class ControllerUserT {
+class ControllerUserTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -35,9 +37,8 @@ class ControllerUserT {
         userDTO.setName("John Doe");
         userDTO.setEmail("johndoe@example.com");
         userDTO.setPhone(1234567890);
-        userDTO.setMoney(1000);
         userDTO.setPhoto("photo.jpg");
-        userDTO.setStatus("ACTIVE");
+        //userDTO.setStatus("ACTIVE");
     }
 
     @Test

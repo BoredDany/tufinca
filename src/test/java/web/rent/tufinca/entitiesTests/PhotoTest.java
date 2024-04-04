@@ -1,10 +1,13 @@
-package web.rent.tufinca.entities;
+package web.rent.tufinca.entitiesTests;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PhotoT {
+import web.rent.tufinca.entities.Photo;
+import web.rent.tufinca.entities.PropertyDetail;
+
+class PhotoTest {
 
     private Photo photo;
     private PropertyDetail propertyDetail;

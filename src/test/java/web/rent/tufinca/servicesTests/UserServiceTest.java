@@ -24,7 +24,8 @@ class UserServiceTest {
     @BeforeEach
     void setUp() {
         repositoryUser = mock(RepositoryUser.class);
-        modelMapper = new ModelMapper();
+        modelMapper = mock(ModelMapper.class);
+        userService = new UserService(repositoryUser, modelMapper);
     }
 
     @Test
@@ -32,6 +33,7 @@ class UserServiceTest {
         User user = new User();
         user.setIdUser(1L);
         when(repositoryUser.findById(1L)).thenReturn(Optional.of(user));
+        when(modelMapper.map(user, UserDTO.class)).thenReturn(new UserDTO());
 
         UserDTO result = userService.get(1L);
 
@@ -45,6 +47,7 @@ class UserServiceTest {
         user1.setIdUser(1L);
         List<User> userList = Arrays.asList(user1);
         when(repositoryUser.findAll()).thenReturn(userList);
+        when(modelMapper.map(user1, UserDTO.class)).thenReturn(new UserDTO());
 
         List<UserDTO> resultList = userService.get();
 
@@ -60,6 +63,9 @@ class UserServiceTest {
         userDTO.setIdUser(1L);
 
         when(repositoryUser.save(any(User.class))).thenReturn(user);
+        when(modelMapper.map(userDTO, User.class)).thenReturn(user);
+        when(modelMapper.map(user, UserDTO.class)).thenReturn(userDTO);
+
         UserDTO savedDTO = userService.save(userDTO);
 
         assertNotNull(savedDTO);
@@ -75,6 +81,8 @@ class UserServiceTest {
 
         when(repositoryUser.findById(1L)).thenReturn(Optional.of(user));
         when(repositoryUser.save(any(User.class))).thenReturn(user);
+        when(modelMapper.map(userDTO, User.class)).thenReturn(user);
+        when(modelMapper.map(user, UserDTO.class)).thenReturn(userDTO);
 
         UserDTO updatedDTO = userService.update(userDTO);
 

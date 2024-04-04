@@ -20,6 +20,10 @@ public class PropertyService {
     @Autowired
     private ModelMapper modelMapper;
 
+    public PropertyService(RepositoryProperty repositoryProperty2, ModelMapper modelMapper2) {
+        //TODO Auto-generated constructor stub
+    }
+
     public PropertyDTO get(Long id){
         Optional<Property> propertyOptional = repositoryProperty.findById(id);
         PropertyDTO propertyDTO = null;

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,6 @@ import web.rent.tufinca.dtos.PropertyDetailDTO;
 import web.rent.tufinca.entities.PropertyDetail;
 import web.rent.tufinca.repositories.RepositoryPropertyDetail;
 import web.rent.tufinca.services.PropertyDetailService;
-
 
 class PropertyDetailsServiceTest {
 
@@ -24,7 +24,8 @@ class PropertyDetailsServiceTest {
     @BeforeEach
     void setUp() {
         repositoryPropertyDetail = mock(RepositoryPropertyDetail.class);
-        modelMapper = new ModelMapper();
+        modelMapper = mock(ModelMapper.class);  // Usar mock para ModelMapper
+        propertyDetailService = new PropertyDetailService(repositoryPropertyDetail, modelMapper); // Instanciar el servicio con los mocks
     }
 
     @Test
@@ -32,6 +33,7 @@ class PropertyDetailsServiceTest {
         PropertyDetail propertyDetail = new PropertyDetail();
         propertyDetail.setIdPropertyDetail(1L);
         when(repositoryPropertyDetail.findById(1L)).thenReturn(Optional.of(propertyDetail));
+        when(modelMapper.map(any(), eq(PropertyDetailDTO.class))).thenReturn(new PropertyDetailDTO()); // Mockear la conversión
 
         PropertyDetailDTO result = propertyDetailService.get(1L);
 
@@ -44,6 +46,7 @@ class PropertyDetailsServiceTest {
         PropertyDetail propertyDetail = new PropertyDetail();
         propertyDetail.setIdPropertyDetail(1L);
         when(repositoryPropertyDetail.findAll()).thenReturn(Arrays.asList(propertyDetail));
+        when(modelMapper.map(any(), eq(PropertyDetailDTO.class))).thenReturn(new PropertyDetailDTO()); // Mockear la conversión
 
         List<PropertyDetailDTO> result = propertyDetailService.get();
 
@@ -56,6 +59,8 @@ class PropertyDetailsServiceTest {
         PropertyDetail propertyDetail = new PropertyDetail();
         propertyDetail.setIdPropertyDetail(1L);
         when(repositoryPropertyDetail.save(any(PropertyDetail.class))).thenReturn(propertyDetail);
+        when(modelMapper.map(any(), eq(PropertyDetail.class))).thenReturn(propertyDetail); // Mockear la conversión a PropertyDetail
+        when(modelMapper.map(any(), eq(PropertyDetailDTO.class))).thenReturn(new PropertyDetailDTO()); // Mockear la conversión a PropertyDetailDTO
 
         PropertyDetailDTO propertyDetailDTO = new PropertyDetailDTO();
         propertyDetailDTO = propertyDetailService.save(propertyDetailDTO);
@@ -70,6 +75,8 @@ class PropertyDetailsServiceTest {
         propertyDetail.setIdPropertyDetail(1L);
         when(repositoryPropertyDetail.findById(1L)).thenReturn(Optional.of(propertyDetail));
         when(repositoryPropertyDetail.save(any(PropertyDetail.class))).thenReturn(propertyDetail);
+        when(modelMapper.map(any(), eq(PropertyDetail.class))).thenReturn(propertyDetail); // Mockear la conversión a PropertyDetail
+        when(modelMapper.map(any(), eq(PropertyDetailDTO.class))).thenReturn(new PropertyDetailDTO()); // Mockear la conversión a PropertyDetailDTO
 
         PropertyDetailDTO propertyDetailDTO = new PropertyDetailDTO();
         propertyDetailDTO.setIdPropertyDetail(1L);

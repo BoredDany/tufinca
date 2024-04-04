@@ -24,7 +24,8 @@ class RentServiceTest {
     @BeforeEach
     void setUp() {
         repositoryRent = mock(RepositoryRent.class);
-        modelMapper = new ModelMapper();
+        modelMapper = mock(ModelMapper.class); // Mock el ModelMapper
+        rentService = new RentService(repositoryRent, modelMapper); // Inicializa rentService
     }
 
     @Test
@@ -32,6 +33,7 @@ class RentServiceTest {
         Rent rent = new Rent();
         rent.setIdRent(1L);
         when(repositoryRent.findById(1L)).thenReturn(Optional.of(rent));
+        when(modelMapper.map(rent, RentDTO.class)).thenReturn(new RentDTO());
 
         RentDTO result = rentService.get(1L);
 
@@ -45,6 +47,7 @@ class RentServiceTest {
         rent1.setIdRent(1L);
         List<Rent> rentList = Arrays.asList(rent1);
         when(repositoryRent.findAll()).thenReturn(rentList);
+        when(modelMapper.map(rent1, RentDTO.class)).thenReturn(new RentDTO());
 
         List<RentDTO> resultList = rentService.get();
 
@@ -57,9 +60,10 @@ class RentServiceTest {
         Rent rent = new Rent();
         rent.setIdRent(1L);
         RentDTO rentDTO = new RentDTO();
-        rentDTO.setIdRent(1L);
-
         when(repositoryRent.save(any(Rent.class))).thenReturn(rent);
+        when(modelMapper.map(rentDTO, Rent.class)).thenReturn(rent);
+        when(modelMapper.map(rent, RentDTO.class)).thenReturn(rentDTO);
+
         RentDTO savedDTO = rentService.save(rentDTO);
 
         assertNotNull(savedDTO);
@@ -75,6 +79,8 @@ class RentServiceTest {
 
         when(repositoryRent.findById(1L)).thenReturn(Optional.of(rent));
         when(repositoryRent.save(any(Rent.class))).thenReturn(rent);
+        when(modelMapper.map(rentDTO, Rent.class)).thenReturn(rent);
+        when(modelMapper.map(rent, RentDTO.class)).thenReturn(rentDTO);
 
         RentDTO updatedDTO = rentService.update(rentDTO);
 

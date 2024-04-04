@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,8 @@ class PhotoServiceTest {
     @BeforeEach
     void setUp() {
         repositoryPhoto = mock(RepositoryPhoto.class);
-        modelMapper = new ModelMapper();
+        modelMapper = mock(ModelMapper.class);  // Mock ModelMapper también
+        photoService = new PhotoService(repositoryPhoto, modelMapper); // Suponiendo que existe un constructor adecuado en PhotoService
     }
 
     @Test
@@ -31,6 +33,7 @@ class PhotoServiceTest {
         Photo photo = new Photo();
         photo.setIdPhoto(1L);
         when(repositoryPhoto.findById(1L)).thenReturn(Optional.of(photo));
+        when(modelMapper.map(any(), eq(PhotoDTO.class))).thenReturn(new PhotoDTO()); // Mock the mapping
 
         PhotoDTO result = photoService.get(1L);
 
@@ -43,6 +46,7 @@ class PhotoServiceTest {
         Photo photo = new Photo();
         photo.setIdPhoto(1L);
         when(repositoryPhoto.findAll()).thenReturn(Arrays.asList(photo));
+        when(modelMapper.map(any(), eq(PhotoDTO.class))).thenReturn(new PhotoDTO()); // Mock the mapping
 
         List<PhotoDTO> result = photoService.get();
 
@@ -55,6 +59,8 @@ class PhotoServiceTest {
         Photo photo = new Photo();
         photo.setIdPhoto(1L);
         when(repositoryPhoto.save(any(Photo.class))).thenReturn(photo);
+        when(modelMapper.map(any(), eq(Photo.class))).thenReturn(photo); // Mock the mapping to Photo
+        when(modelMapper.map(any(), eq(PhotoDTO.class))).thenReturn(new PhotoDTO()); // Mock the mapping to PhotoDTO
 
         PhotoDTO photoDTO = new PhotoDTO();
         photoDTO = photoService.save(photoDTO);
@@ -69,6 +75,8 @@ class PhotoServiceTest {
         photo.setIdPhoto(1L);
         when(repositoryPhoto.findById(1L)).thenReturn(Optional.of(photo));
         when(repositoryPhoto.save(any(Photo.class))).thenReturn(photo);
+        when(modelMapper.map(any(), eq(Photo.class))).thenReturn(photo); // Mock the mapping to Photo
+        when(modelMapper.map(any(), eq(PhotoDTO.class))).thenReturn(new PhotoDTO()); // Mock the mapping to PhotoDTO
 
         PhotoDTO photoDTO = new PhotoDTO();
         photoDTO.setIdPhoto(1L);

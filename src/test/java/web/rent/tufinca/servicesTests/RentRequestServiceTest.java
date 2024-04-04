@@ -24,7 +24,8 @@ class RentRequestServiceTest {
     @BeforeEach
     void setUp() {
         repositoryRentRequest = mock(RepositoryRentRequest.class);
-        modelMapper = new ModelMapper();
+        modelMapper = mock(ModelMapper.class); // Usar mock para ModelMapper
+        rentRequestService = new RentRequestService(repositoryRentRequest, modelMapper); // Inicialización correcta de rentRequestService
     }
 
     @Test
@@ -32,6 +33,7 @@ class RentRequestServiceTest {
         RentRequest rentRequest = new RentRequest();
         rentRequest.setIdRentRequest(1L);
         when(repositoryRentRequest.findById(1L)).thenReturn(Optional.of(rentRequest));
+        when(modelMapper.map(rentRequest, RentRequestDTO.class)).thenReturn(new RentRequestDTO());
 
         RentRequestDTO result = rentRequestService.get(1L);
 
@@ -45,6 +47,7 @@ class RentRequestServiceTest {
         rentRequest1.setIdRentRequest(1L);
         List<RentRequest> rentRequestList = Arrays.asList(rentRequest1);
         when(repositoryRentRequest.findAll()).thenReturn(rentRequestList);
+        when(modelMapper.map(rentRequest1, RentRequestDTO.class)).thenReturn(new RentRequestDTO());
 
         List<RentRequestDTO> resultList = rentRequestService.get();
 
@@ -57,12 +60,14 @@ class RentRequestServiceTest {
         RentRequest rentRequest = new RentRequest();
         rentRequest.setIdRentRequest(1L);
         when(repositoryRentRequest.save(any(RentRequest.class))).thenReturn(rentRequest);
+        when(modelMapper.map(any(RentRequestDTO.class), eq(RentRequest.class))).thenReturn(rentRequest);
+        when(modelMapper.map(rentRequest, RentRequestDTO.class)).thenReturn(new RentRequestDTO());
 
         RentRequestDTO rentRequestDTO = new RentRequestDTO();
-        rentRequestDTO = rentRequestService.save(rentRequestDTO);
+        RentRequestDTO result = rentRequestService.save(rentRequestDTO);
 
-        assertNotNull(rentRequestDTO);
-        assertEquals(rentRequest.getIdRentRequest(), rentRequestDTO.getIdRentRequest());
+        assertNotNull(result);
+        assertEquals(rentRequest.getIdRentRequest(), result.getIdRentRequest());
     }
 
     @Test
@@ -71,13 +76,15 @@ class RentRequestServiceTest {
         rentRequest.setIdRentRequest(1L);
         when(repositoryRentRequest.findById(1L)).thenReturn(Optional.of(rentRequest));
         when(repositoryRentRequest.save(any(RentRequest.class))).thenReturn(rentRequest);
+        when(modelMapper.map(any(RentRequestDTO.class), eq(RentRequest.class))).thenReturn(rentRequest);
+        when(modelMapper.map(rentRequest, RentRequestDTO.class)).thenReturn(new RentRequestDTO());
 
         RentRequestDTO rentRequestDTO = new RentRequestDTO();
         rentRequestDTO.setIdRentRequest(1L);
-        rentRequestDTO = rentRequestService.update(rentRequestDTO);
+        RentRequestDTO updatedResult = rentRequestService.update(rentRequestDTO);
 
-        assertNotNull(rentRequestDTO);
-        assertEquals(rentRequest.getIdRentRequest(), rentRequestDTO.getIdRentRequest());
+        assertNotNull(updatedResult);
+        assertEquals(rentRequest.getIdRentRequest(), updatedResult.getIdRentRequest());
     }
 
     @Test

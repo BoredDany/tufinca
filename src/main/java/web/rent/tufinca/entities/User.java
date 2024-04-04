@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "status = 0")
-@SQLDelete(sql = "UPDATE company SET status = 1 where id = ?")
+@SQLDelete(sql = "UPDATE user SET status = 1 where id_user = ?")
 public class User {
 
     @Id

@@ -34,6 +34,7 @@ public class ControllerPhoto {
     public PhotoDTO get(@PathVariable Long id) throws Exception {
         return servicePhoto.get(id);
     }
+
     
     @CrossOrigin
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)

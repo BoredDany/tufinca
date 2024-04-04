@@ -21,6 +21,7 @@ public class RentService {
     @Autowired
     private ModelMapper modelMapper;
 
+
     public RentDTO get(Long id){
         Optional<Rent> rentOptional = repositoryRent.findById(id);
         RentDTO rentDTO = null;

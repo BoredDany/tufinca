@@ -20,6 +20,7 @@ public class PropertyService {
     @Autowired
     private ModelMapper modelMapper;
 
+
     public PropertyDTO get(Long id){
         Optional<Property> propertyOptional = repositoryProperty.findById(id);
         PropertyDTO propertyDTO = null;

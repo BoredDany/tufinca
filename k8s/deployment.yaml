@@ -24,7 +24,7 @@ spec:
               - name: db_host
                 value: "190.146.2.119"
               - name: db_port
-                value: "3306"
+                value: "4407"
               - name: db_name
                 value: "grupo_2_3"
               - name: db_username

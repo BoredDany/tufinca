@@ -97,7 +97,7 @@ class ControllerPropertyTest {
         propertyUpdatedDTO.setPrice(1000);
         propertyUpdatedDTO.setArea(120);
         
-        given(propertyService.save(any(PropertyDTO.class))).willReturn(propertyUpdatedDTO);
+        given(propertyService.update(any(PropertyDTO.class), anyLong())).willReturn(propertyUpdatedDTO);
 
         mockMvc.perform(put("/grupo23/controllers/property")
                 .contentType(MediaType.APPLICATION_JSON)

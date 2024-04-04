@@ -3,6 +3,7 @@ package web.rent.tufinca.controllersTests;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.verify;
 
@@ -92,7 +93,7 @@ public class ControllerPropertyDetailsTest {
         propertyDetailUpdatedDTO.setNumLevel(2);
         propertyDetailUpdatedDTO.setDescription("New description test");
         
-        given(propertyDetailService.update(any(PropertyDetailDTO.class))).willReturn(propertyDetailUpdatedDTO);
+        given(propertyDetailService.update(any(PropertyDetailDTO.class), anyLong())).willReturn(propertyDetailUpdatedDTO);
 
         mockMvc.perform(put("/grupo23/controllers/propertydetails")
                 .contentType(MediaType.APPLICATION_JSON)

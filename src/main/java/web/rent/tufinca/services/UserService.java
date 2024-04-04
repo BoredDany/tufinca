@@ -51,15 +51,17 @@ public class UserService {
         return userDTO;
     }
 
-    public UserDTO update (UserDTO userDTO){
-        userDTO = get (userDTO.getIdUser());
-        if (userDTO == null){
-            throw new IllegalArgumentException("Unidentified registry");
-        }
-        User user = modelMapper.map(userDTO, User.class);
+    public UserDTO update (UserDTO userDTO, Long id){
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Unidentified registry"));
+
+        user = modelMapper.map(userDTO, User.class);
+        user.setIdUser(id); // Ensure the id is not changed
         user.setStatus(Status.ACTIVE); 
+        
         user = userRepository.save(user);
+
         userDTO = modelMapper.map(user, UserDTO.class);
+
         return userDTO;
     }
 

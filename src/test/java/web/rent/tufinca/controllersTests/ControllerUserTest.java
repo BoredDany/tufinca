@@ -2,7 +2,10 @@ package web.rent.tufinca.controllersTests;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,7 +92,7 @@ class ControllerUserTest {
         userUpdatedDTO.setPhone(1234567890);
         userUpdatedDTO.setPhoto("photo.jpg");
         
-        given(userService.save(any(UserDTO.class))).willReturn(userUpdatedDTO);
+        given(userService.update(any(UserDTO.class), anyLong())).willReturn(userUpdatedDTO);
 
         mockMvc.perform(put("/grupo23/controllers/user")
                 .contentType(MediaType.APPLICATION_JSON)

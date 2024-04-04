@@ -3,6 +3,7 @@ package web.rent.tufinca.controllersTests;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.verify;
 
@@ -87,7 +88,7 @@ class ControllerPhotoTest {
     updatedPhotoDTO.setIdPhoto(1L);
     updatedPhotoDTO.setUrl("http://example.com/updated_photo.jpg");
 
-    given(servicePhoto.update(any(PhotoDTO.class))).willReturn(updatedPhotoDTO);
+    given(servicePhoto.update(any(PhotoDTO.class), anyLong())).willReturn(updatedPhotoDTO);
 
     mockMvc.perform(put("/grupo23/controllers/photo")
         .contentType(MediaType.APPLICATION_JSON)

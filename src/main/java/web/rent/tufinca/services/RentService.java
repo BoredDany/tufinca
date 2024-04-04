@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.rent.tufinca.dtos.RentDTO;
+import web.rent.tufinca.dtos.UserDTO;
 import web.rent.tufinca.entities.Rent;
+import web.rent.tufinca.entities.Status;
+import web.rent.tufinca.entities.User;
 import web.rent.tufinca.repositories.RepositoryRent;
 
 @Service
@@ -45,14 +48,16 @@ public class RentService {
         return rentDTO;
     }
 
-    public RentDTO update(RentDTO rentDTO){
-        rentDTO = get(rentDTO.getIdRent());
-        if (rentDTO == null){
-            throw new IllegalArgumentException("Unidentified registry");
-        }
-        Rent rent = modelMapper.map(rentDTO, Rent.class);
+    public RentDTO update(RentDTO rentDTO, Long id){
+        Rent rent = repositoryRent.findById(id).orElseThrow(() -> new IllegalArgumentException("Unidentified registry"));
+    
+        rent = modelMapper.map(rentDTO, Rent.class);
+        rent.setIdRent(id); // Ensure the id is not changed
+    
         rent = repositoryRent.save(rent);
+    
         rentDTO = modelMapper.map(rent, RentDTO.class);
+    
         return rentDTO;
     }
 

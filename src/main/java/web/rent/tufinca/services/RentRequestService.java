@@ -44,14 +44,16 @@ public class RentRequestService {
         return rentRequestDTO;
     }
 
-    public RentRequestDTO update(RentRequestDTO rentRequestDTO){
-        rentRequestDTO = get(rentRequestDTO.getIdRentRequest());
-        if (rentRequestDTO == null){
-            throw new IllegalArgumentException("Unidentified registry");
-        }
-        RentRequest rentRequest = modelMapper.map(rentRequestDTO, RentRequest.class);
+    public RentRequestDTO update(RentRequestDTO rentRequestDTO, Long id){
+        RentRequest rentRequest = repositoryRentRequest.findById(id).orElseThrow(() -> new IllegalArgumentException("Unidentified registry"));
+    
+        rentRequest = modelMapper.map(rentRequestDTO, RentRequest.class);
+        rentRequest.setIdRentRequest(id); // Ensure the id is not changed
+    
         rentRequest = repositoryRentRequest.save(rentRequest);
+    
         rentRequestDTO = modelMapper.map(rentRequest, RentRequestDTO.class);
+    
         return rentRequestDTO;
     }
 

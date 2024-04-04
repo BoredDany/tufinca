@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/grupo23/controllers/rent")
+@RequestMapping("/grupo23/controllers/rent/")
 public class ControllerRent {
     @Autowired
     private RentService rentService; // Cambiado a RepositoryRent

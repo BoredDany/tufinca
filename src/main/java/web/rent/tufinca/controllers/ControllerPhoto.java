@@ -17,38 +17,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/grupo23/controllers/photo")
+@RequestMapping("/grupo23/controllers/photo/")
 public class ControllerPhoto {
     @Autowired
     private PhotoService servicePhoto;
 
-    @CrossOrigin
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<PhotoDTO> get() {
         return servicePhoto.get();
     }
     
-    @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public PhotoDTO get(@PathVariable Long id) throws Exception {
         return servicePhoto.get(id);
     }
 
-    
-    @CrossOrigin
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public PhotoDTO save(@RequestBody PhotoDTO photoDTO) throws Exception { // Cambiado a Photo
         return servicePhoto.save(photoDTO); // Cambiado a Photo
     }
 
-    @CrossOrigin
+
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public PhotoDTO update(@RequestBody PhotoDTO photoDTO) throws IllegalArgumentException{ // Cambiado a Photo
         return servicePhoto.update(photoDTO);
     }
 
-    @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(@PathVariable Long id) { // Cambiado el nombre del método a delete para reflejar mejor su función
         servicePhoto.delete(id);

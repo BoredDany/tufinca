@@ -51,7 +51,7 @@ class ControllerRentRequestTest {
         List<RentRequestDTO> rentRequests = Arrays.asList(rentRequestDTO);
         given(rentRequestService.get()).willReturn(rentRequests);
 
-        mockMvc.perform(get("/grupo23/controllers/rentrequest"))
+        mockMvc.perform(get("/grupo23/controllers/rentrequest/"))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$[0].price").value(500));
     }
@@ -73,7 +73,7 @@ class ControllerRentRequestTest {
     void testSaveRentRequest() throws Exception {
         given(rentRequestService.save(any(RentRequestDTO.class))).willReturn(rentRequestDTO);
 
-        mockMvc.perform(post("/grupo23/controllers/rentrequest")
+        mockMvc.perform(post("/grupo23/controllers/rentrequest/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"numPeople\":4,\"price\":500}"))
                .andExpect(status().isOk())

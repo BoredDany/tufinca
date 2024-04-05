@@ -57,7 +57,7 @@ class ControllerPropertyTest {
         List<PropertyDTO> properties = Arrays.asList(propertyDTO);
         given(propertyService.get()).willReturn(properties);
 
-        mockMvc.perform(get("/grupo23/controllers/property"))
+        mockMvc.perform(get("/grupo23/controllers/property/"))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$[0].name").value("Beach House"));
     }
@@ -79,7 +79,7 @@ class ControllerPropertyTest {
     void testSaveProperty() throws Exception {
         given(propertyService.save(any(PropertyDTO.class))).willReturn(propertyDTO);
 
-        mockMvc.perform(post("/grupo23/controllers/property")
+        mockMvc.perform(post("/grupo23/controllers/property/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"Beach House\",\"country\":\"Country\",\"city\":\"City\",\"latitude\":\"00.0000\",\"longitude\":\"00.0000\",\"price\":1000,\"area\":120}"))
                .andExpect(status().isOk())

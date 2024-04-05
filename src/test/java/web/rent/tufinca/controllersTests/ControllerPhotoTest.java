@@ -51,7 +51,7 @@ class ControllerPhotoTest {
         List<PhotoDTO> photos = Arrays.asList(photoDTO);
         given(servicePhoto.get()).willReturn(photos);
 
-        mockMvc.perform(get("/grupo23/controllers/photo"))
+        mockMvc.perform(get("/grupo23/controllers/photo/"))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$[0].url").value("http://example.com/photo.jpg"));
     }
@@ -74,7 +74,7 @@ class ControllerPhotoTest {
     void testSavePhoto() throws Exception {
         given(servicePhoto.save(any(PhotoDTO.class))).willReturn(photoDTO);
 
-        mockMvc.perform(post("/grupo23/controllers/photo")
+        mockMvc.perform(post("/grupo23/controllers/photo/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"url\":\"http://example.com/photo.jpg\",\"description\":\"A beautiful beach house\"}"))
                .andExpect(status().isOk())

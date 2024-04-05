@@ -75,7 +75,7 @@ class ControllerUserTest {
     void testSaveUser() throws Exception {
         given(userService.save(any(UserDTO.class))).willReturn(userDTO);
 
-        mockMvc.perform(post("/grupo23/controllers/user")
+        mockMvc.perform(post("/grupo23/controllers/user/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"John Doe\",\"email\":\"johndoe@example.com\",\"phone\":1234567890,\"money\":1000,\"photo\":\"photo.jpg\",\"status\":\"ACTIVE\"}"))
                .andExpect(status().isOk())

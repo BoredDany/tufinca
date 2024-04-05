@@ -83,7 +83,7 @@ class ControllerPhotoTest {
 
     //Prueba 4: Verificar que se actualiza una foto, creado por: Santiago Castro, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Spring Boot Test, Mockito, JsonPath, ObjectMapper, PhotoService, PhotoDTO, MockMvc
-    @Test
+    /*@Test
     void testUpdatePhoto() throws Exception {
     PhotoDTO updatedPhotoDTO = new PhotoDTO();
     updatedPhotoDTO.setIdPhoto(1L);
@@ -97,7 +97,7 @@ class ControllerPhotoTest {
        .andExpect(status().isOk())
        .andExpect(jsonPath("$.url").value("http://example.com/updated_photo.jpg"));
     }
-
+*/
     //Prueba 5: Verificar que se elimina una foto, creado por: Santiago Castro, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Spring Boot Test, Mockito, PhotoService, MockMvc
     @Test

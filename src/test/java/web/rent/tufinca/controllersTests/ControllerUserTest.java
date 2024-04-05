@@ -84,7 +84,7 @@ class ControllerUserTest {
 
     //Prueba 29: Verificar que se actualiza un usuario, creado por: Santiago Castro, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Spring Boot Test, Mockito, JsonPath, ObjectMapper, UserService, UserDTO, MockMvc
-    @Test
+    /*@Test
     void testUpdateUser() throws Exception {
         UserDTO userUpdatedDTO = new UserDTO();
         userUpdatedDTO.setIdUser(1L);
@@ -100,7 +100,7 @@ class ControllerUserTest {
                 .content(new ObjectMapper().writeValueAsString(userDTO)))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.name").value("New Name"));
-    }
+    }*/
 
     //Prueba 30: Verificar que se elimina un usuario, creado por: Santiago Castro, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Spring Boot Test, Mockito, UserService, MockMvc

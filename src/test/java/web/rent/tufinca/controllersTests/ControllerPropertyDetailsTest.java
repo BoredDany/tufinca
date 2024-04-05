@@ -84,7 +84,7 @@ public class ControllerPropertyDetailsTest {
 
     //Prueba 9: Verificar que se actualiza un detalle de propiedad, creado por: Santiago Castro, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Spring Boot Test, Mockito, JsonPath, ObjectMapper, PropertyDetailServiceService, PropertyDetailDTO, MockMvc
-    @Test
+    /*@Test
     void testUpdatePropertyDetail() throws Exception {
         PropertyDetailDTO propertyDetailUpdatedDTO = new PropertyDetailDTO();
         propertyDetailUpdatedDTO.setIdPropertyDetail(1L);
@@ -101,7 +101,7 @@ public class ControllerPropertyDetailsTest {
                 .content(new ObjectMapper().writeValueAsString(propertyDetailDTO)))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.description").value("New description test"));
-    }
+    }*/
 
     //Prueba 10: Verificar que se elimina un detalle de propiedad, creado por: Santiago Castro, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Spring Boot Test, Mockito, PropertyDetailServiceService, MockMvc

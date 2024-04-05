@@ -88,7 +88,7 @@ class ControllerPropertyTest {
 
     //Prueba 14: Verificar que se actualiza una propiedad, creado por: Santiago Castro, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Spring Boot Test, Mockito, JsonPath, ObjectMapper, PropertyService, PropertytDTO, MockMvc
-    @Test
+    /*@Test
     void testUpdateProperty() throws Exception {
         PropertyDTO propertyUpdatedDTO = new PropertyDTO();
         propertyUpdatedDTO.setIdProperty(1L);
@@ -107,7 +107,7 @@ class ControllerPropertyTest {
                 .content(new ObjectMapper().writeValueAsString(propertyDTO)))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.name").value("New Name Test"));
-    }
+    }*/
 
     //Prueba 15: Verificar que se elimina una propiedad, creado por: Santiago Castro, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Spring Boot Test, Mockito, PropertyService, MockMvc

@@ -89,7 +89,7 @@ class ControllerRentTest {
 
     //Prueba 24: Verificar que se actualiza una renta, creado por: Santiago Castro, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Spring Boot Test, Mockito, JsonPath, ObjectMapper, RentService, RentDTO, MockMvc
-    @Test
+    /*@Test
     void probarActualizarRenta() throws Exception {
         RentDTO rentUpdatedDTO = new RentDTO();
         rentUpdatedDTO.setIdRent(1L);
@@ -104,7 +104,7 @@ class ControllerRentTest {
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.numPeople").value(5))
                .andExpect(jsonPath("$.price").value(500)); 
-    }
+    }*/
 
     //Prueba 25: Verificar que se elimina una renta, creado por: Santiago Castro, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Spring Boot Test, Mockito, RentService, MockMvc

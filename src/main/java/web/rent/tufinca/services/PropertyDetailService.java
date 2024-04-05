@@ -44,14 +44,16 @@ public class PropertyDetailService {
         return propertyDetailDTO;
     }
 
-    public PropertyDetailDTO update(PropertyDetailDTO propertyDetailDTO){
-        propertyDetailDTO = get(propertyDetailDTO.getIdPropertyDetail());
-        if (propertyDetailDTO == null){
-            throw new IllegalArgumentException("Unidentified registry");
-        }
-        PropertyDetail propertyDetail = modelMapper.map(propertyDetailDTO, PropertyDetail.class);
+    public PropertyDetailDTO update(PropertyDetailDTO propertyDetailDTO, Long id){
+        PropertyDetail propertyDetail = repositoryPropertyDetail.findById(id).orElseThrow(() -> new IllegalArgumentException("Unidentified registry"));
+    
+        propertyDetail = modelMapper.map(propertyDetailDTO, PropertyDetail.class);
+        propertyDetail.setIdPropertyDetail(id); // Ensure the id is not changed
+    
         propertyDetail = repositoryPropertyDetail.save(propertyDetail);
+    
         propertyDetailDTO = modelMapper.map(propertyDetail, PropertyDetailDTO.class);
+    
         return propertyDetailDTO;
     }
 

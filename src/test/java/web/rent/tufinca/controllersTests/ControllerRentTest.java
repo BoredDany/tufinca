@@ -5,6 +5,7 @@ package web.rent.tufinca.controllersTests;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.verify;
 
@@ -94,7 +95,7 @@ class ControllerRentTest {
         rentUpdatedDTO.setNumPeople(5);
         rentUpdatedDTO.setPrice(500);
 
-        given(rentService.update(any(RentDTO.class))).willReturn(rentUpdatedDTO);
+        given(rentService.update(any(RentDTO.class), anyLong())).willReturn(rentUpdatedDTO);
 
         mockMvc.perform(put("/grupo23/controllers/rent")
                 .contentType(MediaType.APPLICATION_JSON)

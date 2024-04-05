@@ -46,7 +46,7 @@ public class ControllerUser {
     @CrossOrigin
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDTO update(@RequestBody UserDTO userDTO, @PathVariable Long id) throws IllegalArgumentException{
-        return userService.save(userDTO);
+        return userService.update(userDTO, id);
     }
 
     @CrossOrigin

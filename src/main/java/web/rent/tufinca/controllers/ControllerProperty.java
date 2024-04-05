@@ -43,9 +43,9 @@ public class ControllerProperty {
     }
 
     @CrossOrigin
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PropertyDTO update(@RequestBody PropertyDTO propertyDTO) throws IllegalArgumentException{
-        return propertyService.save(propertyDTO);
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public PropertyDTO update(@RequestBody PropertyDTO propertyDTO, @PathVariable Long id) throws IllegalArgumentException{
+        return propertyService.update(propertyDTO, id);
     }
 
     @CrossOrigin

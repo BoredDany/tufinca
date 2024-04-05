@@ -42,9 +42,9 @@ public class ControllerRent {
     }
 
     @CrossOrigin
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public RentDTO update(@RequestBody RentDTO rentDTO) throws IllegalArgumentException{ // Cambiado a Rent
-        return rentService.update(rentDTO);
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public RentDTO update(@RequestBody RentDTO rentDTO, @PathVariable Long id) throws IllegalArgumentException{ // Cambiado a Rent
+        return rentService.update(rentDTO, id);
     }
 
     @CrossOrigin

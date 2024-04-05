@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import web.rent.tufinca.dtos.PhotoDTO;
+import web.rent.tufinca.dtos.UserDTO;
 import web.rent.tufinca.services.PhotoService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,9 +41,9 @@ public class ControllerPhoto {
     }
 
 
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PhotoDTO update(@RequestBody PhotoDTO photoDTO) throws IllegalArgumentException{ // Cambiado a Photo
-        return servicePhoto.update(photoDTO);
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public PhotoDTO update(@RequestBody PhotoDTO photoDTO, @PathVariable Long id) throws IllegalArgumentException{ // Cambiado a Photo
+        return servicePhoto.update(photoDTO, id);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.rent.tufinca.dtos.PhotoDTO;
+import web.rent.tufinca.dtos.UserDTO;
 import web.rent.tufinca.entities.Photo;
+import web.rent.tufinca.entities.Status;
+import web.rent.tufinca.entities.User;
 import web.rent.tufinca.repositories.RepositoryPhoto;
 
 @Service
@@ -44,14 +47,16 @@ public class PhotoService {
         return photoDTO;
     }
 
-    public PhotoDTO update(PhotoDTO photoDTO){
-        photoDTO = get(photoDTO.getIdPhoto());
-        if (photoDTO == null){
-            throw new IllegalArgumentException("Unidentified registry");
-        }
-        Photo photo = modelMapper.map(photoDTO, Photo.class);
+    public PhotoDTO update(PhotoDTO photoDTO, Long id){
+        Photo photo = repositoryPhoto.findById(id).orElseThrow(() -> new IllegalArgumentException("Unidentified registry"));
+
+        photo = modelMapper.map(photoDTO, Photo.class);
+        photo.setIdPhoto(id); // Ensure the id is not changed
+
         photo = repositoryPhoto.save(photo);
+
         photoDTO = modelMapper.map(photo, PhotoDTO.class);
+
         return photoDTO;
     }
 

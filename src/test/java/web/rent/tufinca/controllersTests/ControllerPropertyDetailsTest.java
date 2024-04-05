@@ -33,6 +33,7 @@ public class ControllerPropertyDetailsTest {
     private PropertyDetailService propertyDetailService;
 
     private PropertyDetailDTO propertyDetailDTO;
+    private Long id = 66L;
 
     @BeforeEach
     void setUp() {
@@ -93,9 +94,9 @@ public class ControllerPropertyDetailsTest {
         propertyDetailUpdatedDTO.setNumLevel(2);
         propertyDetailUpdatedDTO.setDescription("New description test");
         
-        given(propertyDetailService.update(any(PropertyDetailDTO.class), anyLong())).willReturn(propertyDetailUpdatedDTO);
+        given(propertyDetailService.update(any(PropertyDetailDTO.class), id)).willReturn(propertyDetailUpdatedDTO);
 
-        mockMvc.perform(put("/grupo23/controllers/propertydetails")
+        mockMvc.perform(put("/grupo23/controllers/propertydetails/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(propertyDetailDTO)))
                .andExpect(status().isOk())

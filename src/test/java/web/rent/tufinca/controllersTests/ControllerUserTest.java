@@ -34,6 +34,7 @@ class ControllerUserTest {
     private UserService userService;
 
     private UserDTO userDTO;
+    private Long id = 66L;
 
     @BeforeEach
     void setUp() {
@@ -92,9 +93,9 @@ class ControllerUserTest {
         userUpdatedDTO.setPhone(1234567890);
         userUpdatedDTO.setPhoto("photo.jpg");
         
-        given(userService.update(any(UserDTO.class), anyLong())).willReturn(userUpdatedDTO);
+        given(userService.update(any(UserDTO.class), id)).willReturn(userUpdatedDTO);
 
-        mockMvc.perform(put("/grupo23/controllers/user")
+        mockMvc.perform(put("/grupo23/controllers/user/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(userDTO)))
                .andExpect(status().isOk())

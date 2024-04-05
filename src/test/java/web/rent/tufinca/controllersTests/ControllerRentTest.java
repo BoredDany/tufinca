@@ -36,6 +36,7 @@ class ControllerRentTest {
     private RentService rentService;
 
     private RentDTO rentDTO;
+    private Long id = 66L;
 
     @BeforeEach
     void setUp() {
@@ -95,9 +96,9 @@ class ControllerRentTest {
         rentUpdatedDTO.setNumPeople(5);
         rentUpdatedDTO.setPrice(500);
 
-        given(rentService.update(any(RentDTO.class), anyLong())).willReturn(rentUpdatedDTO);
+        given(rentService.update(any(RentDTO.class), id)).willReturn(rentUpdatedDTO);
 
-        mockMvc.perform(put("/grupo23/controllers/rent")
+        mockMvc.perform(put("/grupo23/controllers/rent/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(rentDTO)))
                .andExpect(status().isOk())

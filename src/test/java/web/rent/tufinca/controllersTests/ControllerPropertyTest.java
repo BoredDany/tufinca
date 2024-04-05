@@ -3,6 +3,7 @@ package web.rent.tufinca.controllersTests;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.verify;
 
@@ -33,6 +34,8 @@ class ControllerPropertyTest {
     private PropertyService propertyService;
 
     private PropertyDTO propertyDTO;
+
+    private Long id = 66L;
 
     @BeforeEach
     void setUp() {
@@ -97,9 +100,9 @@ class ControllerPropertyTest {
         propertyUpdatedDTO.setPrice(1000);
         propertyUpdatedDTO.setArea(120);
         
-        given(propertyService.update(any(PropertyDTO.class), anyLong())).willReturn(propertyUpdatedDTO);
+        given(propertyService.update(any(PropertyDTO.class), id)).willReturn(propertyUpdatedDTO);
 
-        mockMvc.perform(put("/grupo23/controllers/property")
+        mockMvc.perform(put("/grupo23/controllers/property/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(propertyDTO)))
                .andExpect(status().isOk())

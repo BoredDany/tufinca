@@ -34,6 +34,7 @@ class ControllerPhotoTest {
     private PhotoService servicePhoto;
 
     private PhotoDTO photoDTO;
+    private Long id = 66L;
 
     @BeforeEach
     void setUp() {
@@ -88,9 +89,9 @@ class ControllerPhotoTest {
     updatedPhotoDTO.setIdPhoto(1L);
     updatedPhotoDTO.setUrl("http://example.com/updated_photo.jpg");
 
-    given(servicePhoto.update(any(PhotoDTO.class), anyLong())).willReturn(updatedPhotoDTO);
+    given(servicePhoto.update(any(PhotoDTO.class), id)).willReturn(updatedPhotoDTO);
 
-    mockMvc.perform(put("/grupo23/controllers/photo")
+    mockMvc.perform(put("/grupo23/controllers/photo/1")
         .contentType(MediaType.APPLICATION_JSON)
         .content(new ObjectMapper().writeValueAsString(photoDTO)))
        .andExpect(status().isOk())

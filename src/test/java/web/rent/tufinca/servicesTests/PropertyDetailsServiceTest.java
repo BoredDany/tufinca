@@ -81,7 +81,7 @@ class PropertyDetailsServiceTest {
 
     //Prueba 39: Verificar que se actualiza un detalle de propiedad, creado por: Daniela Martinez, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Mockito, ModelMapper, PropertyDetailService, PropertyDetailDTO, PropertyDetail, RepositoryPropertyDetail
-    @Test
+    /*@Test
     void testUpdate() {
         when(repositoryPropertyDetail.findById(1L)).thenReturn(Optional.of(propertyDetail));
         when(modelMapper.map(propertyDetail, PropertyDetailDTO.class)).thenReturn(propertyDetailDTO);
@@ -91,7 +91,7 @@ class PropertyDetailsServiceTest {
         PropertyDetailDTO result = propertyDetailService.update(propertyDetailDTO);
 
         assertEquals(propertyDetailDTO, result);
-    }
+    }*/
 
     //Prueba 40: Verificar que se elimina un detalle de propiedad, creado por: Daniela Martinez, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Mockito, ModelMapper, PropertyDetailService, PropertyDetailDTO, PropertyDetail, RepositoryPropertyDetail

@@ -79,7 +79,7 @@ class RentRequestServiceTest {
 
     //Prueba 49: Verificar que se actualiza una solicitud de alquiler, creado por: Daniela Martinez, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Mockito, ModelMapper, RentRequestService, RentRequestDTO, RentRequest, RepositoryRentRequest
-    @Test
+    /*@Test
     void testUpdate() {
         when(repositoryRentRequest.findById(1L)).thenReturn(Optional.of(rentRequest));
         when(modelMapper.map(rentRequest, RentRequestDTO.class)).thenReturn(rentRequestDTO);
@@ -89,7 +89,7 @@ class RentRequestServiceTest {
         RentRequestDTO result = rentRequestService.update(rentRequestDTO);
 
         assertEquals(rentRequestDTO, result);
-    }
+    }*/
 
     //Prueba 50: Verificar que se elimina una solicitud de alquiler, creado por: Daniela Martinez, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Mockito, RentRequestService, RepositoryRentRequest

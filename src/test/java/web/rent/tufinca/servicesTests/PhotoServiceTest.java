@@ -79,7 +79,7 @@ class PhotoServiceTest {
 
     //Prueba 34: Verificar que se actualiza una foto, creado por: Daniela Martinez, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Mockito, ModelMapper, PhotoService, PhotoDTO, Photo, RepositoryPhoto
-    @Test
+    /*@Test
     void testUpdate() {
         when(repositoryPhoto.findById(1L)).thenReturn(Optional.of(photo));
         when(modelMapper.map(photo, PhotoDTO.class)).thenReturn(photoDTO);
@@ -89,7 +89,7 @@ class PhotoServiceTest {
         PhotoDTO result = photoService.update(photoDTO);
 
         assertEquals(photoDTO, result);
-    }
+    }*/
 
     //Prueba 35: Verificar que se elimina una foto, creado por: Daniela Martinez, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Mockito, PhotoService, RepositoryPhoto

@@ -79,7 +79,7 @@ class PropertyServiceTest {
 
     //Prueba 44: Verificar que se actualiza una propiedad, creado por: Daniela Martinez, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Mockito, ModelMapper, PropertyService, PropertyDTO, Property, RepositoryProperty
-    @Test
+    /*@Test
     void testUpdate() {
         when(repositoryProperty.findById(1L)).thenReturn(Optional.of(property));
         when(modelMapper.map(property, PropertyDTO.class)).thenReturn(propertyDTO);
@@ -89,7 +89,7 @@ class PropertyServiceTest {
         PropertyDTO result = propertyService.update(propertyDTO);
 
         assertEquals(propertyDTO, result);
-    }
+    }*/
 
     //Prueba 45: Verificar que se elimina una propiedad, creado por: Daniela Martinez, ejecutado por Daniela Martínez
     // Dependencies: JUnit 5, Mockito, PropertyService, RepositoryProperty

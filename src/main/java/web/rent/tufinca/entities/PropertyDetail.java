@@ -23,8 +23,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Where(clause = "status = 0")
-@SQLDelete(sql = "UPDATE company SET status = 1 where id = ?")
 public class PropertyDetail {
 
     @Id

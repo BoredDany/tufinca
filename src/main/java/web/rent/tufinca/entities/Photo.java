@@ -29,5 +29,5 @@ public class Photo {
 
     @ManyToOne
     @JoinColumn(name = "property_id", referencedColumnName = "idPropertyDetail", unique = false, nullable = false)
-    private PropertyDetail propertyDetail;
+    private Property property;
 }

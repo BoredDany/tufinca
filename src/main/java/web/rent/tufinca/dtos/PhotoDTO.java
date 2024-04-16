@@ -1,6 +1,6 @@
 package web.rent.tufinca.dtos;
 
-import web.rent.tufinca.entities.PropertyDetail;
+import web.rent.tufinca.entities.Property;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,5 +15,5 @@ public class PhotoDTO {
     private Long idPhoto;
     private String url;
     private String description;
-    private PropertyDetail propertyDetail;
+    private Property property;
 }

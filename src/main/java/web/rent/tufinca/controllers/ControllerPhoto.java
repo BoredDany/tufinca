@@ -25,7 +25,7 @@ public class ControllerPhoto {
     @Autowired
     private PhotoService servicePhoto;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<PhotoDTO> get() {
         return servicePhoto.get();
     }

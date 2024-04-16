@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import web.rent.tufinca.entities.PropertyDetail;
 import web.rent.tufinca.entities.Rent;
 import web.rent.tufinca.entities.RentRequest;
 import web.rent.tufinca.entities.User;
@@ -25,8 +24,13 @@ public class PropertyDTO {
     private String longitude;
     private Integer price;
     private Integer area;
+    private String description;
+    private Integer rooms;
+    private Integer bathrooms;
+    private Integer parking;
+    private Integer kitchens;
+    private Integer floors;
     private User user;
-    private PropertyDetail propertyDetail;
     private List<Rent> rents;
     private List<RentRequest> rentRequests;
     

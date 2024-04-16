@@ -18,7 +18,7 @@
 		<java.version>17</java.version>
 		<!-- Configura las propiedades de SonarQube -->
 		<sonar.host.url>http://sonarqube.dynaco.co/</sonar.host.url>
-		<sonar.login>${env.SONAR_TOKEN}</sonar.login>
+		<sonar.login>sqp_a019dc4d8767a959b13f75f53b5c11e8535f3170</sonar.login>
 		<sonar.projectKey>TufincaGrupo23</sonar.projectKey> 
 		<sonar.projectName>TufincaGrupo23</sonar.projectName>
 		<sonar.projectVersion>1.0</sonar.projectVersion>

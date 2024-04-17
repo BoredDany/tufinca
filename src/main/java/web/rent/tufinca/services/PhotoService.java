@@ -9,13 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.rent.tufinca.dtos.PhotoDTO;
+import web.rent.tufinca.dtos.PropertyDTO;
 import web.rent.tufinca.entities.Photo;
+import web.rent.tufinca.entities.Property;
+import web.rent.tufinca.entities.User;
 import web.rent.tufinca.repositories.RepositoryPhoto;
+import web.rent.tufinca.repositories.RepositoryProperty;
 
 @Service
 public class PhotoService {
     @Autowired
     private RepositoryPhoto repositoryPhoto;
+
+    @Autowired 
+    private RepositoryProperty propertyRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -39,8 +46,12 @@ public class PhotoService {
     }
 
     //POST
+
     public PhotoDTO save(PhotoDTO photoDTO){
         Photo photo = modelMapper.map(photoDTO, Photo.class);
+        Optional<Property> propertyOptional = propertyRepository.findById(photoDTO.getPropertyId());
+    
+        photo.setProperty(propertyOptional.get());
         photo = repositoryPhoto.save(photo);
         photoDTO.setIdPhoto(photo.getIdPhoto());
         return photoDTO;

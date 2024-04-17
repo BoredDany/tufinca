@@ -10,12 +10,21 @@ import org.springframework.stereotype.Service;
 
 import web.rent.tufinca.dtos.RentRequestDTO;
 import web.rent.tufinca.entities.RentRequest;
+import web.rent.tufinca.repositories.RepositoryProperty;
 import web.rent.tufinca.repositories.RepositoryRentRequest;
+import web.rent.tufinca.repositories.RepositoryUser;
 
 @Service
 public class RentRequestService {
+    
     @Autowired
     private RepositoryRentRequest repositoryRentRequest;
+
+    @Autowired
+    private RepositoryUser userRepository;
+
+    @Autowired
+    private RepositoryProperty propertyRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -41,6 +50,11 @@ public class RentRequestService {
     //POST
     public RentRequestDTO save(RentRequestDTO rentRequestDTO){
         RentRequest rentRequest = modelMapper.map(rentRequestDTO, RentRequest.class);
+
+        rentRequest.setOwner(userRepository.findById(rentRequestDTO.getOwnerId()).orElse(null));
+        rentRequest.setRenter(userRepository.findById(rentRequestDTO.getRenterId()).orElse(null));
+        rentRequest.setProperty(propertyRepository.findById(rentRequestDTO.getPropertyId()).orElse(null));
+
         rentRequest = repositoryRentRequest.save(rentRequest);
         rentRequestDTO.setIdRentRequest(rentRequest.getIdRentRequest());
         return rentRequestDTO;
@@ -59,6 +73,10 @@ public class RentRequestService {
             rentRequest.setPrice(rentRequestDTO.getPrice());
             rentRequest.setApproval(rentRequestDTO.getApproval());
             rentRequest.setStatus(rentRequestDTO.getStatus());
+
+            rentRequest.setOwner(userRepository.findById(rentRequestDTO.getOwnerId()).orElse(null));
+            rentRequest.setRenter(userRepository.findById(rentRequestDTO.getRenterId()).orElse(null));
+            rentRequest.setProperty(propertyRepository.findById(rentRequestDTO.getPropertyId()).orElse(null));
 
             rentRequest = repositoryRentRequest.save(rentRequest);
             rentRequestDTO = modelMapper.map(rentRequest, RentRequestDTO.class);

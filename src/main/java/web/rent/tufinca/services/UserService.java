@@ -12,13 +12,26 @@ import org.springframework.stereotype.Service;
 import web.rent.tufinca.dtos.UserDTO;
 import web.rent.tufinca.entities.Status;
 import web.rent.tufinca.entities.User;
+import web.rent.tufinca.repositories.RepositoryProperty;
+import web.rent.tufinca.repositories.RepositoryRent;
+import web.rent.tufinca.repositories.RepositoryRentRequest;
 import web.rent.tufinca.repositories.RepositoryUser;
 
 
 @Service
 public class UserService {
+    
     @Autowired
     private RepositoryUser userRepository;
+
+    @Autowired
+    private RepositoryProperty propertyRepository;
+
+    @Autowired
+    private RepositoryRent rentRepository;
+
+    @Autowired
+    private RepositoryRentRequest rentRequestRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -46,16 +59,18 @@ public class UserService {
     }
 
     //POST
-    public UserDTO save (UserDTO userDTO){
+    public UserDTO save(UserDTO userDTO, String password, Integer money) {
         User user = modelMapper.map(userDTO, User.class);
-        user.setStatus(Status.ACTIVE); 
+        user.setPassword(password); 
+        user.setMoney(money);
+        user.setStatus(Status.ACTIVE);
         user = userRepository.save(user);
         userDTO.setIdUser(user.getIdUser());
         return userDTO;
     }
 
     //PUT
-    public UserDTO update(UserDTO userDTO, Long id) {
+    public UserDTO update(UserDTO userDTO, Long id, String newPassword, Integer newMoney) {
         Optional<User> optionalUser = userRepository.findById(id);
     
         if (optionalUser.isPresent()) {
@@ -66,6 +81,14 @@ public class UserService {
             user.setPhone(userDTO.getPhone());
             user.setPhoto(userDTO.getPhoto());
             user.setStatus(userDTO.getStatus());
+            user.setPassword(newPassword); 
+            user.setMoney(newMoney);
+
+            user.setProperties(userDTO.getPropertyIds().stream().map(propertyRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
+            user.setReservations(userDTO.getReservationIds().stream().map(rentRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
+            user.setRents(userDTO.getRentIds().stream().map(rentRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
+            user.setRentRequests(userDTO.getRentRequestIds().stream().map(rentRequestRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
+            user.setReservationRequests(userDTO.getReservationRequestIds().stream().map(rentRequestRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
     
             user = userRepository.save(user);
             userDTO = modelMapper.map(user, UserDTO.class);

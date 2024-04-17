@@ -50,6 +50,7 @@ public class RentService {
     }
 
     //POST
+
     public RentDTO save(RentDTO rentDTO){
         Rent rent = modelMapper.map(rentDTO, Rent.class);
         Optional<User> ownerOptional = userRepository.findById(rentDTO.getOwnerId());
@@ -64,7 +65,7 @@ public class RentService {
             rent.setRenter(renter);
             rent.setProperty(property);
             rent = repositoryRent.save(rent);
-            return rentDTO;
+            return modelMapper.map(rent, RentDTO.class);
         }
         return null;
     }
@@ -84,11 +85,24 @@ public class RentService {
             rent.setRatingOwner(rentDTO.getRatingOwner());
             rent.setRatingRenter(rentDTO.getRatingRenter());
             rent.setStatus(rentDTO.getStatus());
-
+    
+            Optional<User> ownerOptional = userRepository.findById(rentDTO.getOwnerId());
+            Optional<User> renterOptional = userRepository.findById(rentDTO.getRenterId());
+            Optional<Property> propertyOptional = repositoryProperty.findById(rentDTO.getPropertyId());
+    
+            if (ownerOptional.isPresent() && renterOptional.isPresent() && propertyOptional.isPresent()) {
+                User owner = ownerOptional.get();
+                User renter = renterOptional.get();
+                Property property = propertyOptional.get();
+                rent.setOwner(owner);
+                rent.setRenter(renter);
+                rent.setProperty(property);
+            }
+    
             rent = repositoryRent.save(rent);
-            rentDTO = modelMapper.map(rent, RentDTO.class);
-            return rentDTO;
+            return modelMapper.map(rent, RentDTO.class);
         }
+        
         return null;
     }
 

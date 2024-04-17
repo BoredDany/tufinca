@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import web.rent.tufinca.dtos.UserDTO;
@@ -38,14 +39,14 @@ public class ControllerUser {
     
     @CrossOrigin
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDTO save(@RequestBody UserDTO userDTO) {
-        return userService.save(userDTO);
+    public UserDTO save(@RequestBody UserDTO userDTO, @RequestParam String password, @RequestParam Integer money) {
+        return userService.save(userDTO, password, money);
     }
 
     @CrossOrigin
-    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDTO update(@RequestBody UserDTO userDTO, @PathVariable Long id) throws IllegalArgumentException{
-        return userService.update(userDTO, id);
+    @PutMapping("/{id}")
+    public UserDTO update(@RequestBody UserDTO userDTO, @PathVariable Long id, @RequestParam String newPassword, @RequestParam Integer newMoney) {
+        return userService.update(userDTO, id, newPassword, newMoney);
     }
 
     @CrossOrigin

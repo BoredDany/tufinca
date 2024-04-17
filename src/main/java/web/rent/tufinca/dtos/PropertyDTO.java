@@ -33,5 +33,8 @@ public class PropertyDTO {
     private Integer floors;
     private Status status;
     private Long ownerId;
+    private List<Long> rentIds;
+    private List<Long> rentRequestIds;
+    private List<Long> photoIds;
     
 }

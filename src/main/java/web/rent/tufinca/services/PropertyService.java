@@ -9,9 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.rent.tufinca.dtos.PropertyDTO;
+import web.rent.tufinca.entities.Photo;
 import web.rent.tufinca.entities.Property;
+import web.rent.tufinca.entities.Rent;
+import web.rent.tufinca.entities.RentRequest;
 import web.rent.tufinca.entities.User;
+import web.rent.tufinca.repositories.RepositoryPhoto;
 import web.rent.tufinca.repositories.RepositoryProperty;
+import web.rent.tufinca.repositories.RepositoryRent;
+import web.rent.tufinca.repositories.RepositoryRentRequest;
 import web.rent.tufinca.repositories.RepositoryUser;
 
 @Service
@@ -24,6 +30,15 @@ public class PropertyService {
 
     @Autowired
     private RepositoryUser userRepository;
+
+    @Autowired
+    private RepositoryRent rentRepository;
+
+    @Autowired
+    private RepositoryRentRequest rentRequestRepository;
+
+    @Autowired
+    private RepositoryPhoto photoRepository;
 
     //GET
     public List<PropertyDTO> get(){
@@ -44,26 +59,25 @@ public class PropertyService {
     }
 
     //POST
+
     public PropertyDTO save(PropertyDTO propertyDTO){
         Property property = modelMapper.map(propertyDTO, Property.class);
         Optional<User> userOptional = userRepository.findById(propertyDTO.getOwnerId());
-
         if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            property.setUser(user);
+            property.setUser(userOptional.get());
             property = repositoryProperty.save(property);
+            propertyDTO.setIdProperty(property.getIdProperty());
             return propertyDTO;
         }
-        
         return null;
     }
 
     //PUT
+
     public PropertyDTO update(PropertyDTO propertyDTO, Long id) {
-        Optional<Property> optionalProeprty = repositoryProperty.findById(id);
-    
-        if (optionalProeprty.isPresent()) {
-            Property property = optionalProeprty.get();
+        Optional<Property> optionalProperty = repositoryProperty.findById(id);
+        if (optionalProperty.isPresent()) {
+            Property property = optionalProperty.get();
             property.setName(propertyDTO.getName());
             property.setCountry(propertyDTO.getCountry());
             property.setCity(propertyDTO.getCity());
@@ -78,7 +92,9 @@ public class PropertyService {
             property.setKitchens(propertyDTO.getKitchens());
             property.setFloors(propertyDTO.getFloors());
             property.setStatus(propertyDTO.getStatus());
-
+            property.setRents(propertyDTO.getRentIds().stream().map(rentRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
+            property.setRentRequests(propertyDTO.getRentRequestIds().stream().map(rentRequestRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));        
+            property.setPhotos(propertyDTO.getPhotoIds().stream().map(photoRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
             property = repositoryProperty.save(property);
             propertyDTO = modelMapper.map(property, PropertyDTO.class);
             return propertyDTO;

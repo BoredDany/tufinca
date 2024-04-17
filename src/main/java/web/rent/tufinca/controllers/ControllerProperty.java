@@ -12,20 +12,19 @@ import web.rent.tufinca.services.PropertyService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/grupo23/controllers/property/")
+@RequestMapping("/grupo23/properties/")
 public class ControllerProperty {
     @Autowired
     private PropertyService propertyService; 
 
     @CrossOrigin
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<PropertyDTO> get() {
         return propertyService.get();
     }

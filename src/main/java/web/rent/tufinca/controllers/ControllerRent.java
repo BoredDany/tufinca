@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/grupo23/controllers/rent/")
+@RequestMapping("/grupo23/rents/")
 public class ControllerRent {
     @Autowired
-    private RentService rentService; // Cambiado a RepositoryRent
+    private RentService rentService; 
 
     @CrossOrigin
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RentDTO> get() {
         return rentService.get();
     }
@@ -43,13 +43,13 @@ public class ControllerRent {
 
     @CrossOrigin
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RentDTO update(@RequestBody RentDTO rentDTO, @PathVariable Long id) throws IllegalArgumentException{ // Cambiado a Rent
+    public RentDTO update(@RequestBody RentDTO rentDTO, @PathVariable Long id) throws IllegalArgumentException{
         return rentService.update(rentDTO, id);
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id) { // Cambiado el nombre del método a delete para reflejar mejor su función
+    public void delete(@PathVariable Long id) {
         rentService.delete(id);
     }
 }

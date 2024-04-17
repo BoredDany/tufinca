@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/grupo23/controllers/rentrequest/")
+@RequestMapping("/grupo23/rentrequests/")
 public class ControllerRentRequest {
     @Autowired
     private RentRequestService rentRequestService;
 
     @CrossOrigin
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RentRequestDTO> get() throws Exception {
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<RentRequestDTO> get() {
         return rentRequestService.get();
     }
     

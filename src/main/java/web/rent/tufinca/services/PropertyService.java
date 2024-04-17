@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import web.rent.tufinca.dtos.PropertyDTO;
 import web.rent.tufinca.entities.Property;
+import web.rent.tufinca.entities.User;
 import web.rent.tufinca.repositories.RepositoryProperty;
+import web.rent.tufinca.repositories.RepositoryUser;
 
 @Service
 public class PropertyService {
@@ -20,7 +22,18 @@ public class PropertyService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private RepositoryUser userRepository;
 
+    //GET
+    public List<PropertyDTO> get(){
+        List<Property> properties = (List<Property>) repositoryProperty.findAll();
+        return properties.stream()
+        .map(property -> modelMapper.map(property, PropertyDTO.class))
+        .collect(Collectors.toList());
+    }
+
+    //GET BY ID
     public PropertyDTO get(Long id){
         Optional<Property> propertyOptional = repositoryProperty.findById(id);
         PropertyDTO propertyDTO = null;
@@ -30,33 +43,50 @@ public class PropertyService {
         return propertyDTO;
     }
 
-    public List<PropertyDTO> get(){
-        List<Property> properties = (List<Property>) repositoryProperty.findAll();
-        return properties.stream()
-        .map(property -> modelMapper.map(property, PropertyDTO.class))
-        .collect(Collectors.toList());
-    }
-
+    //POST
     public PropertyDTO save(PropertyDTO propertyDTO){
         Property property = modelMapper.map(propertyDTO, Property.class);
-        property = repositoryProperty.save(property);
-        propertyDTO.setIdProperty(property.getIdProperty());
-        return propertyDTO;
+        Optional<User> userOptional = userRepository.findById(propertyDTO.getOwnerId());
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            property.setUser(user);
+            property = repositoryProperty.save(property);
+            return propertyDTO;
+        }
+        
+        return null;
     }
 
-    public PropertyDTO update(PropertyDTO propertyDTO, Long id){
-        Property property = repositoryProperty.findById(id).orElseThrow(() -> new IllegalArgumentException("Unidentified registry"));
+    //PUT
+    public PropertyDTO update(PropertyDTO propertyDTO, Long id) {
+        Optional<Property> optionalProeprty = repositoryProperty.findById(id);
     
-        property = modelMapper.map(propertyDTO, Property.class);
-        property.setIdProperty(id); // Ensure the id is not changed
-    
-        property = repositoryProperty.save(property);
-    
-        propertyDTO = modelMapper.map(property, PropertyDTO.class);
-    
-        return propertyDTO;
+        if (optionalProeprty.isPresent()) {
+            Property property = optionalProeprty.get();
+            property.setName(propertyDTO.getName());
+            property.setCountry(propertyDTO.getCountry());
+            property.setCity(propertyDTO.getCity());
+            property.setLatitude(propertyDTO.getLatitude());
+            property.setLongitude(propertyDTO.getLongitude());
+            property.setPrice(propertyDTO.getPrice());
+            property.setArea(propertyDTO.getArea());
+            property.setDescription(propertyDTO.getDescription());
+            property.setRooms(propertyDTO.getRooms());
+            property.setBathrooms(propertyDTO.getBathrooms());
+            property.setParking(propertyDTO.getParking());
+            property.setKitchens(propertyDTO.getKitchens());
+            property.setFloors(propertyDTO.getFloors());
+            property.setStatus(propertyDTO.getStatus());
+
+            property = repositoryProperty.save(property);
+            propertyDTO = modelMapper.map(property, PropertyDTO.class);
+            return propertyDTO;
+        }
+        return null;
     }
 
+    //DELETE
     public void delete(Long id){
         repositoryProperty.deleteById(id);
     }

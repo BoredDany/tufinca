@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import web.rent.tufinca.entities.Property;
+import web.rent.tufinca.entities.Status;
 import web.rent.tufinca.entities.User;
 
 @Getter
@@ -19,7 +20,8 @@ public class RentRequestDTO {
     private Integer numPeople;
     private Integer price;
     private Integer approval;
-    private User owner;
-    private User renter;
-    private Property property;
+    private Status status;
+    private Long ownerId;
+    private Long renterId;
+    private Long propertyId;
 }

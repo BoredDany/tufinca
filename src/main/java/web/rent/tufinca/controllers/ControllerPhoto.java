@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/grupo23/controllers/photo/")
+@RequestMapping("/grupo23/photos/")
 public class ControllerPhoto {
     @Autowired
     private PhotoService servicePhoto;
@@ -31,23 +30,23 @@ public class ControllerPhoto {
     }
     
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PhotoDTO get(@PathVariable Long id) throws Exception {
+    public PhotoDTO get(@PathVariable Long id) {
         return servicePhoto.get(id);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PhotoDTO save(@RequestBody PhotoDTO photoDTO) throws Exception { // Cambiado a Photo
-        return servicePhoto.save(photoDTO); // Cambiado a Photo
+    public PhotoDTO save(@RequestBody PhotoDTO photoDTO) { 
+        return servicePhoto.save(photoDTO); 
     }
 
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PhotoDTO update(@RequestBody PhotoDTO photoDTO, @PathVariable Long id) throws IllegalArgumentException{ // Cambiado a Photo
+    public PhotoDTO update(@RequestBody PhotoDTO photoDTO, @PathVariable Long id) throws IllegalArgumentException{ 
         return servicePhoto.update(photoDTO, id);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id) { // Cambiado el nombre del método a delete para reflejar mejor su función
+    public void delete(@PathVariable Long id) {
         servicePhoto.delete(id);
     }
 }

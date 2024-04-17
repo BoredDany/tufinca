@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.rent.tufinca.dtos.PhotoDTO;
-import web.rent.tufinca.dtos.UserDTO;
 import web.rent.tufinca.entities.Photo;
-import web.rent.tufinca.entities.Status;
-import web.rent.tufinca.entities.User;
 import web.rent.tufinca.repositories.RepositoryPhoto;
 
 @Service
@@ -23,7 +20,15 @@ public class PhotoService {
     @Autowired
     private ModelMapper modelMapper;
 
+    //GET
+    public List<PhotoDTO> get(){
+        List<Photo> photos = (List<Photo>) repositoryPhoto.findAll();
+        return photos.stream()
+        .map(photo -> modelMapper.map(photo, PhotoDTO.class))
+        .collect(Collectors.toList());
+    }
 
+    //GET BY ID
     public PhotoDTO get(Long id){
         Optional<Photo> photoOptional = repositoryPhoto.findById(id);
         PhotoDTO photoDTO = null;
@@ -33,13 +38,7 @@ public class PhotoService {
         return photoDTO;
     }
 
-    public List<PhotoDTO> get(){
-        List<Photo> photos = (List<Photo>) repositoryPhoto.findAll();
-        return photos.stream()
-        .map(photo -> modelMapper.map(photo, PhotoDTO.class))
-        .collect(Collectors.toList());
-    }
-
+    //POST
     public PhotoDTO save(PhotoDTO photoDTO){
         Photo photo = modelMapper.map(photoDTO, Photo.class);
         photo = repositoryPhoto.save(photo);
@@ -47,19 +46,25 @@ public class PhotoService {
         return photoDTO;
     }
 
-    public PhotoDTO update(PhotoDTO photoDTO, Long id){
-        Photo photo = repositoryPhoto.findById(id).orElseThrow(() -> new IllegalArgumentException("Unidentified registry"));
+    //PUT
+    public PhotoDTO update(PhotoDTO photoDTO, Long id) {
+        Optional<Photo> optionalPhoto = repositoryPhoto.findById(id);
+    
+        if (optionalPhoto.isPresent()) {
+            Photo photo = optionalPhoto.get();
 
-        photo = modelMapper.map(photoDTO, Photo.class);
-        photo.setIdPhoto(id); // Ensure the id is not changed
-
-        photo = repositoryPhoto.save(photo);
-
-        photoDTO = modelMapper.map(photo, PhotoDTO.class);
-
-        return photoDTO;
+            photo.setUrl(photoDTO.getUrl());
+            photo.setDescription(photoDTO.getDescription());
+            photo.setStatus(photoDTO.getStatus());
+            
+            photo = repositoryPhoto.save(photo);
+            photoDTO = modelMapper.map(photo, PhotoDTO.class);
+            return photoDTO;
+        }
+        return null;
     }
 
+    //DELETE
     public void delete(Long id){
         repositoryPhoto.deleteById(id);
     }

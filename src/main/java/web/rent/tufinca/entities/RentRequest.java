@@ -4,6 +4,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,9 +23,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE rent_request SET status = 1 WHERE id_rent_request = ?")
 @Where(clause = "status = 0")
-@SQLDelete(sql = "UPDATE company SET status = 1 where id = ?")
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"dateStart", "dateEnd", "owner_id", "renter_id", "property_id"})})
+@Table(name = "rent_request", uniqueConstraints={@UniqueConstraint(columnNames={"dateStart", "dateEnd", "owner_id", "renter_id", "property_id"})})
 public class RentRequest {
 
     @Id
@@ -34,6 +36,9 @@ public class RentRequest {
     private Integer numPeople;
     private Integer price;
     private Integer approval;
+
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "idUser", unique = false, nullable = false)

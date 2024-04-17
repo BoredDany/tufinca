@@ -24,6 +24,16 @@ public class UserService {
     private ModelMapper modelMapper;
 
 
+    //GET
+    public List<UserDTO> get ( ){
+        List<User> users = (List<User>) userRepository.findAll(); // Remove unnecessary cast
+        return users.stream()
+        .map(user -> modelMapper
+        .map(user, UserDTO.class))
+        .collect(Collectors.toList());
+    }
+
+    //GET BY ID
     public UserDTO get (Long id){
         Optional<User> userOptional = userRepository.findById(id);
         UserDTO userDTO = null;
@@ -35,14 +45,7 @@ public class UserService {
         return userDTO;
     }
 
-    public List<UserDTO> get ( ){
-        List<User> users = (List<User>) userRepository.findAll(); // Remove unnecessary cast
-        return users.stream()
-        .map(user -> modelMapper
-        .map(user, UserDTO.class))
-        .collect(Collectors.toList());
-    }
-
+    //POST
     public UserDTO save (UserDTO userDTO){
         User user = modelMapper.map(userDTO, User.class);
         user.setStatus(Status.ACTIVE); 
@@ -51,20 +54,27 @@ public class UserService {
         return userDTO;
     }
 
-    public UserDTO update (UserDTO userDTO, Long id){
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Unidentified registry"));
-
-        user = modelMapper.map(userDTO, User.class);
-        user.setIdUser(id); // Ensure the id is not changed
-        user.setStatus(Status.ACTIVE); 
-        
-        user = userRepository.save(user);
-
-        userDTO = modelMapper.map(user, UserDTO.class);
-
-        return userDTO;
+    //PUT
+    public UserDTO update(UserDTO userDTO, Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+    
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+    
+            user.setName(userDTO.getName());
+            user.setEmail(userDTO.getEmail());
+            user.setPhone(userDTO.getPhone());
+            user.setPhoto(userDTO.getPhoto());
+            user.setStatus(userDTO.getStatus());
+    
+            user = userRepository.save(user);
+            userDTO = modelMapper.map(user, UserDTO.class);
+            return userDTO;
+        }
+        return null;
     }
 
+    //DELETE
     public void delete (Long id){
         userRepository.deleteById(id);
     }

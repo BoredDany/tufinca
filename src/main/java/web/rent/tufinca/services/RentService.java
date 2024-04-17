@@ -9,22 +9,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.rent.tufinca.dtos.RentDTO;
-import web.rent.tufinca.dtos.UserDTO;
+import web.rent.tufinca.entities.Property;
 import web.rent.tufinca.entities.Rent;
-import web.rent.tufinca.entities.Status;
 import web.rent.tufinca.entities.User;
+import web.rent.tufinca.repositories.RepositoryProperty;
 import web.rent.tufinca.repositories.RepositoryRent;
+import web.rent.tufinca.repositories.RepositoryUser;
 
 @Service
 public class RentService {
     
     @Autowired
     private RepositoryRent repositoryRent;
+    
+    @Autowired
+    private RepositoryUser userRepository;
+
+    @Autowired
+    private RepositoryProperty repositoryProperty;
 
     @Autowired
     private ModelMapper modelMapper;
 
+    //GET
+    public List<RentDTO> get(){
+        List<Rent> rents = (List<Rent>) repositoryRent.findAll();
+        return rents.stream()
+        .map(rent -> modelMapper.map(rent, RentDTO.class))
+        .collect(Collectors.toList());
+    }
 
+    //GET BY ID
     public RentDTO get(Long id){
         Optional<Rent> rentOptional = repositoryRent.findById(id);
         RentDTO rentDTO = null;
@@ -34,33 +49,50 @@ public class RentService {
         return rentDTO;
     }
 
-    public List<RentDTO> get(){
-        List<Rent> rents = (List<Rent>) repositoryRent.findAll();
-        return rents.stream()
-        .map(rent -> modelMapper.map(rent, RentDTO.class))
-        .collect(Collectors.toList());
-    }
-
+    //POST
     public RentDTO save(RentDTO rentDTO){
         Rent rent = modelMapper.map(rentDTO, Rent.class);
-        rent = repositoryRent.save(rent);
-        rentDTO.setIdRent(rent.getIdRent());
-        return rentDTO;
+        Optional<User> ownerOptional = userRepository.findById(rentDTO.getOwnerId());
+        Optional<User> renterOptional = userRepository.findById(rentDTO.getRenterId());
+        Optional<Property> propertyOptional = repositoryProperty.findById(rentDTO.getPropertyId());
+
+        if (ownerOptional.isPresent() && renterOptional.isPresent() && propertyOptional.isPresent()) {
+            User owner = ownerOptional.get();
+            User renter = renterOptional.get();
+            Property property = propertyOptional.get();
+            rent.setOwner(owner);
+            rent.setRenter(renter);
+            rent.setProperty(property);
+            rent = repositoryRent.save(rent);
+            return rentDTO;
+        }
+        return null;
     }
 
-    public RentDTO update(RentDTO rentDTO, Long id){
-        Rent rent = repositoryRent.findById(id).orElseThrow(() -> new IllegalArgumentException("Unidentified registry"));
+    //PUT
+    public RentDTO update(RentDTO rentDTO, Long id) {
+        Optional<Rent> optionalRent = repositoryRent.findById(id);
     
-        rent = modelMapper.map(rentDTO, Rent.class);
-        rent.setIdRent(id); // Ensure the id is not changed
-    
-        rent = repositoryRent.save(rent);
-    
-        rentDTO = modelMapper.map(rent, RentDTO.class);
-    
-        return rentDTO;
+        if (optionalRent.isPresent()) {
+            Rent rent = optionalRent.get();
+            
+            rent.setDateStart(rentDTO.getDateStart());
+            rent.setDateEnd(rentDTO.getDateEnd());
+            rent.setNumPeople(rentDTO.getNumPeople());
+            rent.setPrice(rentDTO.getPrice());
+            rent.setPayment(rentDTO.getPayment());
+            rent.setRatingOwner(rentDTO.getRatingOwner());
+            rent.setRatingRenter(rentDTO.getRatingRenter());
+            rent.setStatus(rentDTO.getStatus());
+
+            rent = repositoryRent.save(rent);
+            rentDTO = modelMapper.map(rent, RentDTO.class);
+            return rentDTO;
+        }
+        return null;
     }
 
+    //DELETE
     public void delete(Long id){
         repositoryRent.deleteById(id);
     }

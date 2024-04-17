@@ -20,7 +20,15 @@ public class RentRequestService {
     @Autowired
     private ModelMapper modelMapper;
 
+    //GET
+    public List<RentRequestDTO> get(){
+        List<RentRequest> rentRequests = (List<RentRequest>) repositoryRentRequest.findAll();
+        return rentRequests.stream()
+        .map(rentRequest -> modelMapper.map(rentRequest, RentRequestDTO.class))
+        .collect(Collectors.toList());
+    }
 
+    //GET BY ID
     public RentRequestDTO get(Long id){
         Optional<RentRequest> rentRequestOptional = repositoryRentRequest.findById(id);
         RentRequestDTO rentRequestDTO = null;
@@ -30,13 +38,7 @@ public class RentRequestService {
         return rentRequestDTO;
     }
 
-    public List<RentRequestDTO> get(){
-        List<RentRequest> rentRequests = (List<RentRequest>) repositoryRentRequest.findAll();
-        return rentRequests.stream()
-        .map(rentRequest -> modelMapper.map(rentRequest, RentRequestDTO.class))
-        .collect(Collectors.toList());
-    }
-
+    //POST
     public RentRequestDTO save(RentRequestDTO rentRequestDTO){
         RentRequest rentRequest = modelMapper.map(rentRequestDTO, RentRequest.class);
         rentRequest = repositoryRentRequest.save(rentRequest);
@@ -44,19 +46,28 @@ public class RentRequestService {
         return rentRequestDTO;
     }
 
-    public RentRequestDTO update(RentRequestDTO rentRequestDTO, Long id){
-        RentRequest rentRequest = repositoryRentRequest.findById(id).orElseThrow(() -> new IllegalArgumentException("Unidentified registry"));
+    //PUT
+    public RentRequestDTO update(RentRequestDTO rentRequestDTO, Long id) {
+        Optional<RentRequest> optionalRentRequest = repositoryRentRequest.findById(id);
     
-        rentRequest = modelMapper.map(rentRequestDTO, RentRequest.class);
-        rentRequest.setIdRentRequest(id); // Ensure the id is not changed
+        if (optionalRentRequest.isPresent()) {
+            RentRequest rentRequest = optionalRentRequest.get();
     
-        rentRequest = repositoryRentRequest.save(rentRequest);
-    
-        rentRequestDTO = modelMapper.map(rentRequest, RentRequestDTO.class);
-    
-        return rentRequestDTO;
+            rentRequest.setDateStart(rentRequestDTO.getDateStart());
+            rentRequest.setDateEnd(rentRequestDTO.getDateEnd());
+            rentRequest.setNumPeople(rentRequestDTO.getNumPeople());
+            rentRequest.setPrice(rentRequestDTO.getPrice());
+            rentRequest.setApproval(rentRequestDTO.getApproval());
+            rentRequest.setStatus(rentRequestDTO.getStatus());
+
+            rentRequest = repositoryRentRequest.save(rentRequest);
+            rentRequestDTO = modelMapper.map(rentRequest, RentRequestDTO.class);
+            return rentRequestDTO;
+        }
+        return null;
     }
 
+    //DELETE
     public void delete(Long id){
         repositoryRentRequest.deleteById(id);
     }

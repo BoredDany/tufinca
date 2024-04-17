@@ -1,6 +1,7 @@
 package web.rent.tufinca.dtos;
 
 import web.rent.tufinca.entities.Property;
+import web.rent.tufinca.entities.Status;
 import web.rent.tufinca.entities.User;
 
 import lombok.AllArgsConstructor;
@@ -22,8 +23,9 @@ public class RentDTO {
     private Integer payment;
     private Integer ratingOwner;
     private Integer ratingRenter;
-    private User owner;
-    private User renter;
-    private Property property;
+    private Status status;
+    private Long ownerId;
+    private Long renterId;
+    private Long propertyId;
 
 }

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import web.rent.tufinca.entities.Rent;
 import web.rent.tufinca.entities.RentRequest;
+import web.rent.tufinca.entities.Status;
 import web.rent.tufinca.entities.User;
 
 import java.util.List;
@@ -30,8 +31,7 @@ public class PropertyDTO {
     private Integer parking;
     private Integer kitchens;
     private Integer floors;
-    private User user;
-    private List<Rent> rents;
-    private List<RentRequest> rentRequests;
+    private Status status;
+    private Long ownerId;
     
 }

@@ -1,5 +1,6 @@
 package web.rent.tufinca.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.SQLDelete;
@@ -59,12 +60,12 @@ public class Property {
     private User user;
 
     @OneToMany(mappedBy = "property")
-    private List<Rent> rents;
+    private List<Rent> rents = new ArrayList<>();
 
     @OneToMany(mappedBy = "property")
-    private List<RentRequest> rentRequests;
+    private List<RentRequest> rentRequests = new ArrayList<>();
 
     @OneToMany(mappedBy = "property")
-    private List<Photo> photos;
+    private List<Photo> photos = new ArrayList<>();
 
 }

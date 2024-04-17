@@ -65,8 +65,7 @@ public class UserService {
         user.setMoney(money);
         user.setStatus(Status.ACTIVE);
         user = userRepository.save(user);
-        userDTO.setIdUser(user.getIdUser());
-        return userDTO;
+        return modelMapper.map(user, UserDTO.class);
     }
 
     //PUT

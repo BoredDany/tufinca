@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.SQLDelete;
@@ -47,19 +48,19 @@ public class User {
     private Status status;
 
     @OneToMany(mappedBy = "user")
-    private List<Property> properties;
+    private List<Property> properties = new ArrayList<>();
 
     @OneToMany(mappedBy = "renter")
-    private List<Rent> reservations;
+    private List<Rent> reservations = new ArrayList<>();
 
     @OneToMany(mappedBy = "owner")
-    private List<Rent> rents;
+    private List<Rent> rents = new ArrayList<>();
 
     @OneToMany(mappedBy = "owner")
-    private List<RentRequest> rentRequests;
+    private List<RentRequest> rentRequests = new ArrayList<>();
 
     @OneToMany(mappedBy = "renter")
-    private List<RentRequest> reservationRequests;
+    private List<RentRequest> reservationRequests = new ArrayList<>();
 
 
     

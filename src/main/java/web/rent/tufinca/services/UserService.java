@@ -65,11 +65,12 @@ public class UserService {
         user.setMoney(money);
         user.setStatus(Status.ACTIVE);
         user = userRepository.save(user);
+        userDTO.setIdUser(user.getIdUser());
         return modelMapper.map(user, UserDTO.class);
     }
 
     //PUT
-    public UserDTO update(UserDTO userDTO, Long id, String newPassword, Integer newMoney) {
+    public UserDTO update(UserDTO userDTO, Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
     
         if (optionalUser.isPresent()) {
@@ -80,8 +81,6 @@ public class UserService {
             user.setPhone(userDTO.getPhone());
             user.setPhoto(userDTO.getPhoto());
             user.setStatus(userDTO.getStatus());
-            user.setPassword(newPassword); 
-            user.setMoney(newMoney);
 
             user.setProperties(userDTO.getPropertyIds().stream().map(propertyRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
             user.setReservations(userDTO.getReservationIds().stream().map(rentRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));

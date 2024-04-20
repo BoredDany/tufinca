@@ -45,8 +45,8 @@ public class ControllerUser {
 
     @CrossOrigin
     @PutMapping("/{id}")
-    public UserDTO update(@RequestBody UserDTO userDTO, @PathVariable Long id, @RequestParam String newPassword, @RequestParam Integer newMoney) {
-        return userService.update(userDTO, id, newPassword, newMoney);
+    public UserDTO update(@RequestBody UserDTO userDTO, @PathVariable Long id) {
+        return userService.update(userDTO, id);
     }
 
     @CrossOrigin

@@ -65,6 +65,7 @@ public class RentService {
             rent.setRenter(renter);
             rent.setProperty(property);
             rent = repositoryRent.save(rent);
+            rentDTO.setIdRent(rent.getIdRent());
             return modelMapper.map(rent, RentDTO.class);
         }
         return null;

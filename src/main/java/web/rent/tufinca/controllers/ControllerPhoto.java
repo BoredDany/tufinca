@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/grupo23/photos/")
+@RequestMapping("/grupo23/photos")
 public class ControllerPhoto {
     @Autowired
     private PhotoService servicePhoto;
@@ -34,7 +34,7 @@ public class ControllerPhoto {
         return servicePhoto.get(id);
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public PhotoDTO save(@RequestBody PhotoDTO photoDTO) { 
         return servicePhoto.save(photoDTO); 
     }

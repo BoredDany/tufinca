@@ -1,5 +1,6 @@
 package web.rent.tufinca.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,8 @@ public class UserDTO {
     private Integer phone;
     private String photo;
     private Status status;
+    private String password;
+    private Integer money;
 
     private List<Long> propertyIds;
     private List<Long> reservationIds;

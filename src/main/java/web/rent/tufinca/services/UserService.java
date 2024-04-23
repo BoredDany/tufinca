@@ -1,9 +1,11 @@
 package web.rent.tufinca.services;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.List; 
+import java.util.List;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,10 +61,17 @@ public class UserService {
     }
 
     //POST
-    public UserDTO save(UserDTO userDTO, String password, Integer money) {
+    public UserDTO save(UserDTO userDTO) {
         User user = modelMapper.map(userDTO, User.class);
-        user.setPassword(password); 
-        user.setMoney(money);
+        // Encriptar la constraseña
+        String hash = BCrypt
+                .withDefaults()
+                .hashToString(
+                        12,
+                        userDTO.getPassword().toCharArray()
+                );
+        user.setPassword(hash);
+        user.setMoney(userDTO.getMoney());
         user.setStatus(Status.ACTIVE);
         user = userRepository.save(user);
         userDTO.setIdUser(user.getIdUser());

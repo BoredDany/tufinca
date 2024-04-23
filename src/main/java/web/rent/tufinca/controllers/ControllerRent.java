@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/grupo23/rents/")
+@RequestMapping("/grupo23/rents")
 public class ControllerRent {
     @Autowired
     private RentService rentService; 
@@ -36,7 +36,7 @@ public class ControllerRent {
     }
     
     @CrossOrigin
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public RentDTO save(@RequestBody RentDTO rentDTO) { 
         return rentService.save(rentDTO);
     }

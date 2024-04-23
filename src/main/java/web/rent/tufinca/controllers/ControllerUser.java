@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import web.rent.tufinca.dtos.UserDTO;
+import web.rent.tufinca.entities.User;
 import web.rent.tufinca.services.UserService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/grupo23/users/")
+@RequestMapping("/grupo23/users")
 public class ControllerUser {
 
     @Autowired
@@ -38,9 +39,9 @@ public class ControllerUser {
     }
     
     @CrossOrigin
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDTO save(@RequestBody UserDTO userDTO, @RequestParam String password, @RequestParam Integer money) {
-        return userService.save(userDTO, password, money);
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDTO save(@RequestBody UserDTO userDTO) {
+        return userService.save(userDTO);
     }
 
     @CrossOrigin

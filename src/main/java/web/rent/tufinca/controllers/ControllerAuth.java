@@ -20,6 +20,7 @@ public class ControllerAuth {
     @Autowired
     private AuthService authService;
 
+    @CrossOrigin
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<HTTPResponse> login(@RequestBody LoginSchema loginForm) {
         int res = authService.login(loginForm);
@@ -43,6 +44,7 @@ public class ControllerAuth {
         return response;
     }
 
+    @CrossOrigin
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<HTTPResponse> register(@RequestBody UserDTO user) {
        UserDTO newUser = authService.register(user);

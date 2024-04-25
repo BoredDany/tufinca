@@ -60,6 +60,15 @@ public class UserService {
         return userDTO;
     }
 
+    public UserDTO getByEmail (String email){
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        UserDTO userDTO = null;
+        if (userOptional.isPresent()){
+            userDTO = modelMapper.map(userOptional.get(), UserDTO.class);
+        }
+        return userDTO;
+    }
+
     //POST
     public UserDTO save(UserDTO userDTO) {
         User user = modelMapper.map(userDTO, User.class);
@@ -108,5 +117,6 @@ public class UserService {
     public void delete (Long id){
         userRepository.deleteById(id);
     }
+
 
 }

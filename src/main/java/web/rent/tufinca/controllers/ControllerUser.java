@@ -1,7 +1,9 @@
 package web.rent.tufinca.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
+import web.rent.tufinca.utils.HTTPResponse;
 
 @RestController
 @RequestMapping("/grupo23/users")
@@ -36,6 +39,30 @@ public class ControllerUser {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDTO get(@PathVariable Long id) {
         return userService.get(id);
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<HTTPResponse> getByEmail(@PathVariable String email) {
+        UserDTO user = userService.getByEmail(email);
+        ResponseEntity<HTTPResponse> response;
+        if (user == null) {
+            response = HTTPResponse.build(
+                    "Alguna de tu informacion es incorrecta",
+                    null,
+                    null,
+                    HttpStatus.BAD_REQUEST
+            );
+        } else {
+            response = HTTPResponse.build(
+                    null,
+                    "Auth success",
+                    user,
+                    HttpStatus.OK
+            );
+        }
+
+        return response;
     }
     
     @CrossOrigin

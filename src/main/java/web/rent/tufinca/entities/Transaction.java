@@ -24,7 +24,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @SQLDelete(sql = "UPDATE transaction SET status = 1 WHERE id_transaction = ?")
 @Where(clause = "status = 0")
-@Table(name="transaction", uniqueConstraints={@UniqueConstraint(columnNames={"origin", "destination", "rent"})})
+@Table(name="transaction")
 public class Transaction {
 
     @Id
@@ -40,7 +40,7 @@ public class Transaction {
     private User destination;
     
     @OneToOne
-    @JoinColumn(name = "rent_id", referencedColumnName = "idRent", nullable = false)
+    @JoinColumn(name = "rent_id", referencedColumnName = "idRent", unique = false, nullable = false)
     private Rent rent;
     
     private Double amount;

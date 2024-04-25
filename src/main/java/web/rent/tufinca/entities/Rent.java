@@ -11,12 +11,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.*;
 
 @Entity
 @Getter
@@ -38,6 +41,7 @@ public class Rent {
     private Integer payment;
     private Integer ratingOwner;
     private Integer ratingRenter;
+    private Integer rentStatus;
 
     @Enumerated(EnumType.ORDINAL)
     private Status status;
@@ -54,4 +58,6 @@ public class Rent {
     @JoinColumn(name = "property_id", referencedColumnName = "idProperty", unique = false, nullable = false)
     private Property property;
 
+    @OneToOne(mappedBy = "rent")
+    private Transaction pago;
 }

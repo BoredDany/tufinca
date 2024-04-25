@@ -86,6 +86,7 @@ public class RentService {
             rent.setRatingOwner(rentDTO.getRatingOwner());
             rent.setRatingRenter(rentDTO.getRatingRenter());
             rent.setStatus(rentDTO.getStatus());
+            rent.setRentStatus(rentDTO.getRentStatus());
     
             Optional<User> ownerOptional = userRepository.findById(rentDTO.getOwnerId());
             Optional<User> renterOptional = userRepository.findById(rentDTO.getRenterId());

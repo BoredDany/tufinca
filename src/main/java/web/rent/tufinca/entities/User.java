@@ -19,9 +19,6 @@ import java.util.List;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "user")
@@ -62,6 +59,13 @@ public class User {
     @OneToMany(mappedBy = "renter")
     private List<RentRequest> reservationRequests = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<BankAccount> accounts;
 
+    @OneToMany(mappedBy = "origin")
+    private List<Transaction> pago = new ArrayList<>();
+
+    @OneToMany(mappedBy = "destination")
+    private List<Transaction> recibido = new ArrayList<>();
     
 }

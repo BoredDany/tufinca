@@ -27,5 +27,7 @@ public class RentDTO {
     private Long ownerId;
     private Long renterId;
     private Long propertyId;
+    private Integer rentStatus;
+
 
 }

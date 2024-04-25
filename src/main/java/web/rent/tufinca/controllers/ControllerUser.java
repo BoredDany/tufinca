@@ -42,7 +42,7 @@ public class ControllerUser {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HTTPResponse> getByEmail(@PathVariable String email) {
         UserDTO user = userService.getByEmail(email);
         ResponseEntity<HTTPResponse> response;
@@ -56,7 +56,7 @@ public class ControllerUser {
         } else {
             response = HTTPResponse.build(
                     null,
-                    "Auth success",
+                    "El usuario ha sido recuperado",
                     user,
                     HttpStatus.OK
             );

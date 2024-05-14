@@ -13,14 +13,12 @@ import web.rent.tufinca.dtos.PhotoDTO;
 import web.rent.tufinca.dtos.PropertyDTO;
 import web.rent.tufinca.dtos.RentDTO;
 import web.rent.tufinca.dtos.RentRequestDTO;
-import web.rent.tufinca.dtos.TransactionDTO;
 import web.rent.tufinca.dtos.UserDTO;
 import web.rent.tufinca.entities.BankAccount;
 import web.rent.tufinca.entities.Photo;
 import web.rent.tufinca.entities.Property;
 import web.rent.tufinca.entities.Rent;
 import web.rent.tufinca.entities.RentRequest;
-import web.rent.tufinca.entities.Transaction;
 import web.rent.tufinca.entities.User;
 import web.rent.tufinca.repositories.BankAccountRepository;
 import web.rent.tufinca.repositories.RepositoryPhoto;
@@ -208,23 +206,6 @@ public class ModelMapperConfiguration {
                         mapper.map(BankAccountDTO::getAccountNumber, BankAccount::setAccountNumber);
                         mapper.using(ctx -> userRepository.findById((Long) ctx.getSource()).orElse(null))
                                         .map(BankAccountDTO::getIdUser, BankAccount::setUser);
-                });
-
-                // Mapping for TransactionDTO to Transaction
-                modelMapper.typeMap(TransactionDTO.class, Transaction.class).addMappings(mapper -> {
-                        mapper.using(ctx -> userRepository.findById((Long) ctx.getSource()).orElse(null))
-                                        .map(TransactionDTO::getIdUserOrigin, Transaction::setOrigin);
-                        mapper.using(ctx -> userRepository.findById((Long) ctx.getSource()).orElse(null))
-                                        .map(TransactionDTO::getIdUserDestination, Transaction::setDestination);
-                        mapper.using(ctx -> rentRepository.findById((Long) ctx.getSource()).orElse(null))
-                                        .map(TransactionDTO::getIdRent, Transaction::setRent);
-                });
-
-                // Mapping for Transaction to TransactionDTO
-                modelMapper.typeMap(Transaction.class, TransactionDTO.class).addMappings(mapper -> {
-                        mapper.map(src -> src.getOrigin().getIdUser(), TransactionDTO::setIdUserOrigin);
-                        mapper.map(src -> src.getDestination().getIdUser(), TransactionDTO::setIdUserDestination);
-                        mapper.map(src -> src.getRent().getIdRent(), TransactionDTO::setIdRent);
                 });
 
                 return modelMapper;

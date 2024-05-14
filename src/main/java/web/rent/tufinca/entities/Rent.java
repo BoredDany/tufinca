@@ -3,9 +3,11 @@ package web.rent.tufinca.entities;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -58,6 +60,7 @@ public class Rent {
     @JoinColumn(name = "property_id", referencedColumnName = "idProperty", unique = false, nullable = false)
     private Property property;
 
-    @OneToOne(mappedBy = "rent")
-    private Transaction pago;
+    /*
+    @OneToOne(mappedBy = "rent", cascade = CascadeType.ALL)
+    private Transaction pago; */
 }

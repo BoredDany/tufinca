@@ -61,11 +61,5 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<BankAccount> accounts;
-
-    @OneToMany(mappedBy = "origin")
-    private List<Transaction> pago = new ArrayList<>();
-
-    @OneToMany(mappedBy = "destination")
-    private List<Transaction> recibido = new ArrayList<>();
     
 }

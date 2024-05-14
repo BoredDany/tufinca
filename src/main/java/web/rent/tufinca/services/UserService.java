@@ -10,6 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.security.core.Authentication;
 
 import web.rent.tufinca.dtos.UserDTO;
 import web.rent.tufinca.entities.Status;
@@ -38,6 +41,15 @@ public class UserService {
     @Autowired
     private ModelMapper modelMapper;
 
+    //AUTH
+    public UserDTO autorizacion( Authentication authentication ) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println("-----------------------");
+        System.out.println(  authentication.getName() );
+        UserDTO usuario = objectMapper.readValue(authentication.getName(), UserDTO.class);
+        System.out.println("-----------------------"); 
+        return usuario;
+    }
 
     //GET
     public List<UserDTO> get ( ){

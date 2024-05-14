@@ -6,12 +6,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import web.rent.tufinca.dtos.TokenDTO;
 import web.rent.tufinca.dtos.UserDTO;
 import web.rent.tufinca.services.AuthService;
 import web.rent.tufinca.utils.HTTPResponse;
 import web.rent.tufinca.utils.schemas.LoginSchema;
 
 import java.awt.*;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/grupo23/auth")
@@ -22,15 +25,18 @@ public class ControllerAuth {
 
     @CrossOrigin
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    private ResponseEntity<HTTPResponse> login(@RequestBody LoginSchema loginForm) {
-        int res = authService.login(loginForm);
+    private ResponseEntity<HTTPResponse> login(@RequestHeader Map<String, String> headers) {
+
+        String basicAuthHeader = headers.get("authorization");
+
+        String res = authService.generateToken(basicAuthHeader);
         ResponseEntity<HTTPResponse> response;
-        if (res == 0) {
+        if (!Objects.equals(res, "NOT_FOUND")) {
             // Aqui se debe envíar el JWT o ponerlo en la cookie
             response = HTTPResponse.build(
                     null,
                     "Auth success",
-                    null,
+                    new TokenDTO(res),
                     HttpStatus.OK
             );
         } else {

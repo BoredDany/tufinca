@@ -48,7 +48,7 @@ public class ModelMapperConfiguration {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-        
+        //modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
         //Mapping for UserDTO to User
         modelMapper.typeMap(UserDTO.class, User.class).addMappings(mapper -> {

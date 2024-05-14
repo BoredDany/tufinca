@@ -13,5 +13,5 @@ public interface ISecurityConfig {
     AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception;
 
     SecurityFilterChain configure(HttpSecurity http) throws Exception;
-    
+
 }

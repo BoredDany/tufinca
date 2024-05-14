@@ -40,9 +40,6 @@ public class ControllerAuth {
                     new TokenDTO(res),
                     HttpStatus.OK
             );
-
-            Cookie cookie = new Cookie("jwt", res);
-            response.getHeaders().add("Set-Cookie", cookie.toString());
         } else {
             response = HTTPResponse.build(
                     "Alguna de tu informacion es incorrecta",

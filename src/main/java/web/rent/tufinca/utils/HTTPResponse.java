@@ -28,6 +28,7 @@ public class HTTPResponse {
         response.setData(setData);
         response.setError(error);
         response.setStatus(status);
+
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 

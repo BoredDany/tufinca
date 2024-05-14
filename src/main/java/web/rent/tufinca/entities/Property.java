@@ -31,7 +31,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE property SET status = 1 WHERE id_property = ?")
+//@SQLDelete(sql = "UPDATE property SET status = 1 WHERE id_property = ?")
 @Where(clause = "status = 0")
 public class Property {
 

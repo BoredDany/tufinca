@@ -28,7 +28,7 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE rent SET status = 1 WHERE id_rent = ?")
+//@SQLDelete(sql = "UPDATE rent SET status = 1 WHERE id_rent = ?")
 @Where(clause = "status = 0")
 @Table(name="rent", uniqueConstraints={@UniqueConstraint(columnNames={"dateStart", "dateEnd", "owner_id", "renter_id", "property_id"})})
 public class Rent {

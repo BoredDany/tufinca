@@ -26,7 +26,7 @@ import org.hibernate.annotations.Where;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE user SET status = 1 WHERE id_user = ?")
+//@SQLDelete(sql = "UPDATE user SET status = 1 WHERE id_user = ?")
 @Where(clause = "status = 0")
 public class User {
 

@@ -23,7 +23,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE rent_request SET status = 1 WHERE id_rent_request = ?")
+//@SQLDelete(sql = "UPDATE rent_request SET status = 1 WHERE id_rent_request = ?")
 @Where(clause = "status = 0")
 @Table(name = "rent_request", uniqueConstraints={@UniqueConstraint(columnNames={"dateStart", "dateEnd", "owner_id", "renter_id", "property_id"})})
 public class RentRequest {

@@ -41,6 +41,7 @@ public class UserService {
     @Autowired
     private ModelMapper modelMapper;
 
+
     //AUTH
     public UserDTO autorizacion( Authentication authentication ) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -49,6 +50,10 @@ public class UserService {
         UserDTO usuario = objectMapper.readValue(authentication.getName(), UserDTO.class);
         System.out.println("-----------------------"); 
         return usuario;
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     //GET

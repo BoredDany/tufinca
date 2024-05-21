@@ -106,4 +106,11 @@ public class AuthService {
         if (possibleUser.isPresent()) return null;
         return userService.save(userDTO);
     }
+
+    //
+    public Long getUserIdFromToken(String token) {
+        Claims claims = decodeToken(token);
+        // Asume que el userId se almacena en el claim "userId"
+        return claims.get("userId", Long.class);
+    }
 }

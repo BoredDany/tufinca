@@ -1,13 +1,18 @@
 package web.rent.tufinca.services;
 
+import java.io.IOException;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Claims;
@@ -65,6 +70,21 @@ public class TokenService {
                             .build()
                             .parseClaimsJws(jwtToken)
                             .getBody();
+    }
+
+    public Long getId(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        System.out.println("+++++++++++SOLICITA\n" + username);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode userNode;
+        try {
+            userNode = objectMapper.readTree(username);
+        } catch (IOException e) {
+            throw new RuntimeException("Error parsing user JSON", e);
+        }
+
+        return userNode.get("idUser").asLong();
     }
     
 }

@@ -27,7 +27,7 @@ import java.security.SignatureException;
 @Service
 public class JWTAuthFilter extends OncePerRequestFilter {
 
-    public static final String AUTHORIZATION_HEADER = "authorization";
+    public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String BEARER_PREFIX = "Bearer ";
 
     @Autowired
@@ -56,7 +56,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             } else {
                 System.out.println("No jwt token found");
                 SecurityContextHolder.clearContext();
-                if (!request.getRequestURI().startsWith("/grupo23/auth/")) throw new ServletException("JWT Token not found");
+                //if (!request.getRequestURI().startsWith("/grupo23/auth/")) throw new ServletException("JWT Token not found");
             }
             filterChain.doFilter(request, response);
         } catch (Exception e) {

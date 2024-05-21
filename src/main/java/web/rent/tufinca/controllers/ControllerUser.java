@@ -1,9 +1,13 @@
 package web.rent.tufinca.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,13 +35,24 @@ public class ControllerUser {
 
     @CrossOrigin
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<UserDTO> get() {
+    public List<UserDTO> get( Authentication authentication ) {
         return userService.get();
     }
     
     @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDTO get(@PathVariable Long id) {
+    public UserDTO get(@PathVariable Long id, Authentication authentication) {
+        System.out.println("authentication details\n\n");
+        Long userId = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            userId = mapper.readValue(authentication.getPrincipal().toString(), UserDTO.class).getIdUser();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            userId = -1L;
+        }
+        // userId contiene el ID del usuario autenticado
+        System.out.println(userId);
         return userService.get(id);
     }
 

@@ -8,7 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import web.rent.tufinca.dtos.RentDTO;
 import web.rent.tufinca.dtos.RentRequestDTO;
+import web.rent.tufinca.entities.Rent;
 import web.rent.tufinca.entities.RentRequest;
 import web.rent.tufinca.repositories.RepositoryProperty;
 import web.rent.tufinca.repositories.RepositoryRentRequest;
@@ -34,6 +36,22 @@ public class RentRequestService {
         List<RentRequest> rentRequests = (List<RentRequest>) repositoryRentRequest.findAll();
         return rentRequests.stream()
         .map(rentRequest -> modelMapper.map(rentRequest, RentRequestDTO.class))
+        .collect(Collectors.toList());
+    }
+
+    //BET BY OWNER ID
+    public List<RentRequestDTO> getRentRequestsByOwnerId(Long userId) {
+        List<RentRequest> requests = (List<RentRequest>) repositoryRentRequest.findByOwner_IdUser(userId);
+        return requests.stream()
+        .map(request -> modelMapper.map(request, RentRequestDTO.class))
+        .collect(Collectors.toList());
+    }
+
+    //GET BY RENTER ID
+    public List<RentRequestDTO> getRentRequestsByRenterId(Long userId) {
+        List<RentRequest> requests = (List<RentRequest>) repositoryRentRequest.findByRenter_IdUser(userId);
+        return requests.stream()
+        .map(request -> modelMapper.map(request, RentRequestDTO.class))
         .collect(Collectors.toList());
     }
 

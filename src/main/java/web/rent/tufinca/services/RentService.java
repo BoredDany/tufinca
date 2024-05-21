@@ -39,11 +39,17 @@ public class RentService {
         .collect(Collectors.toList());
     }
 
-    public List<RentDTO> getRentsByUserId(Long userId) {
-        // Asume que tienes un método en tu repositorio para buscar rentas por userId
-        System.out.println("USUARIO RENTA: " + userId);
-
+    //GET BY OWNER ID
+    public List<RentDTO> getRentsByOwnerId(Long userId) {
         List<Rent> rents = (List<Rent>) repositoryRent.findByOwner_IdUser(userId);
+        return rents.stream()
+        .map(rent -> modelMapper.map(rent, RentDTO.class))
+        .collect(Collectors.toList());
+    }
+
+    //GET BY RENTER ID
+    public List<RentDTO> getRentsByRenterId(Long userId) {
+        List<Rent> rents = (List<Rent>) repositoryRent.findByRenter_IdUser(userId);
         return rents.stream()
         .map(rent -> modelMapper.map(rent, RentDTO.class))
         .collect(Collectors.toList());

@@ -53,15 +53,21 @@ public class ControllerRent {
      */
 
     @CrossOrigin
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RentDTO get(@PathVariable Long id) {
-        return rentService.get(id);
+    @GetMapping("/")
+    public List<RentDTO> getUserRentsWhereIsOwner() {
+        return rentService.getRentsByOwnerId(tokenService.getId());
     }
 
     @CrossOrigin
-    @GetMapping("/")
-    public List<RentDTO> getUserRents() {
-        return rentService.getRentsByUserId(tokenService.getId());
+    @GetMapping("/rented")
+    public List<RentDTO> getUserRentsWhereIsRenter() {
+        return rentService.getRentsByRenterId(tokenService.getId());
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public RentDTO get(@PathVariable Long id) {
+        return rentService.get(id);
     }
 
     @CrossOrigin

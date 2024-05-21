@@ -8,4 +8,5 @@ import web.rent.tufinca.entities.Rent;
 
 public interface RepositoryRent extends CrudRepository<Rent, Long> {
     List<Rent> findByOwner_IdUser(Long ownerId);
+    List<Rent> findByRenter_IdUser(Long renterId);
 }

@@ -24,7 +24,7 @@ import web.rent.tufinca.dtos.UserDTO;
 @Service
 public class TokenService {
 
-    private long jwtExpiration = 99999999;
+    /*private long jwtExpiration = 99999999;
     private Key jwtKey = Keys.secretKeyFor(SignatureAlgorithm.HS512); 
 
     public String generarToken(UserDTO usuario) {
@@ -70,12 +70,11 @@ public class TokenService {
                             .build()
                             .parseClaimsJws(jwtToken)
                             .getBody();
-    }
+    }*/
 
     public Long getId(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        System.out.println("+++++++++++SOLICITA\n" + username);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode userNode;
         try {

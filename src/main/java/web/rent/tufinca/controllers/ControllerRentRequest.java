@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import web.rent.tufinca.dtos.RentRequestDTO;
 import web.rent.tufinca.services.RentRequestService;
+import web.rent.tufinca.services.TokenService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,15 +21,31 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @RequestMapping("/grupo23/rentrequests")
 public class ControllerRentRequest {
+
     @Autowired
     private RentRequestService rentRequestService;
 
-    @CrossOrigin
+    @Autowired
+    private TokenService tokenService;
+
+    /*@CrossOrigin
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RentRequestDTO> get() {
         return rentRequestService.get();
-    }
+    }*/
     
+    @CrossOrigin
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<RentRequestDTO> getWhereIsOwner() {
+        return rentRequestService.getRentRequestsByOwnerId(tokenService.getId());
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/requested", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<RentRequestDTO> getWhereIsRenter() {
+        return rentRequestService.getRentRequestsByRenterId(tokenService.getId());
+    }
+
     @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public RentRequestDTO get(@PathVariable Long id) {

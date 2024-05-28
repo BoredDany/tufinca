@@ -114,15 +114,6 @@ public class UserService {
             user.setName(userDTO.getName());
             user.setEmail(userDTO.getEmail());
             user.setPhone(userDTO.getPhone());
-            user.setPhoto(userDTO.getPhoto());
-            user.setStatus(userDTO.getStatus());
-
-            user.setProperties(userDTO.getPropertyIds().stream().map(propertyRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
-            user.setReservations(userDTO.getReservationIds().stream().map(rentRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
-            user.setRents(userDTO.getRentIds().stream().map(rentRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
-            user.setRentRequests(userDTO.getRentRequestIds().stream().map(rentRequestRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
-            user.setReservationRequests(userDTO.getReservationRequestIds().stream().map(rentRequestRepository::findById).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
-    
             user = userRepository.save(user);
             userDTO = modelMapper.map(user, UserDTO.class);
             return userDTO;

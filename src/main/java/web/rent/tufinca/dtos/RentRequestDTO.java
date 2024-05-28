@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import web.rent.tufinca.entities.Property;
 import web.rent.tufinca.entities.Status;
-import web.rent.tufinca.entities.User;
 
 @Getter
 @Setter

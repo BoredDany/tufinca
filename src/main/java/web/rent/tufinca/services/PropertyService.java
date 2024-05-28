@@ -40,6 +40,13 @@ public class PropertyService {
     @Autowired
     private RepositoryPhoto photoRepository;
 
+    public List<PropertyDTO> getByUserId(Long userId) {
+        List<Property> properties = (List<Property>) repositoryProperty.findByUser_IdUser(userId);
+        return properties.stream()
+        .map(property -> modelMapper.map(property, PropertyDTO.class))
+        .collect(Collectors.toList());
+    }
+
     //GET
     public List<PropertyDTO> get(){
         List<Property> properties = (List<Property>) repositoryProperty.findAll();

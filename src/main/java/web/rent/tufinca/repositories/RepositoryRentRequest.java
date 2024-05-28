@@ -1,10 +1,6 @@
 package web.rent.tufinca.repositories;
-
 import java.util.List;
-
 import org.springframework.data.repository.CrudRepository;
-
-import web.rent.tufinca.entities.Rent;
 import web.rent.tufinca.entities.RentRequest;
 
 public interface RepositoryRentRequest extends CrudRepository<RentRequest, Long> {

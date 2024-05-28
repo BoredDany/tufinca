@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import web.rent.tufinca.dtos.PropertyDTO;
 import web.rent.tufinca.services.PropertyService;
+import web.rent.tufinca.utils.HTTPResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class ControllerProperty {
     @Autowired
     private PropertyService propertyService; 
+
+    @CrossOrigin
+    @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<PropertyDTO> getUserProperties(Authentication auth) {
+        return propertyService.getByUserId( HTTPResponse.getUserIDFromAuth(auth) );
+    }
 
     @CrossOrigin
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)

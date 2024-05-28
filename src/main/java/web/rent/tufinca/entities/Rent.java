@@ -2,19 +2,14 @@ package web.rent.tufinca.entities;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -47,7 +42,7 @@ public class Rent {
 
     @Enumerated(EnumType.ORDINAL)
     private Status status;
-
+    
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "idUser", unique = false, nullable = false)
     private User owner;

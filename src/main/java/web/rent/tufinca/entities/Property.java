@@ -2,14 +2,7 @@ package web.rent.tufinca.entities;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -54,7 +47,7 @@ public class Property {
 
     @Enumerated(EnumType.ORDINAL)
     private Status status;
-    
+
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "idUser", unique = false, nullable = false)
     private User user;

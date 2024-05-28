@@ -42,23 +42,12 @@ public class ControllerUser {
     @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDTO get(@PathVariable Long id, Authentication authentication) {
-        System.out.println("authentication details\n\n");
-        Long userId = null;
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            userId = mapper.readValue(authentication.getPrincipal().toString(), UserDTO.class).getIdUser();
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            userId = -1L;
-        }
-        // userId contiene el ID del usuario autenticado
-        System.out.println(userId);
         return userService.get(id);
     }
 
     @CrossOrigin
     @GetMapping(value = "/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HTTPResponse> getByEmail(@PathVariable String email) {
+    public ResponseEntity<HTTPResponse> getByEmail(@PathVariable String email, Authentication auth) {
         UserDTO user = userService.getByEmail(email);
         ResponseEntity<HTTPResponse> response;
         if (user == null) {
@@ -82,19 +71,19 @@ public class ControllerUser {
     
     @CrossOrigin
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDTO save(@RequestBody UserDTO userDTO) {
+    public UserDTO save(@RequestBody UserDTO userDTO, Authentication auth) {
         return userService.save(userDTO);
     }
 
     @CrossOrigin
     @PutMapping("/{id}")
-    public UserDTO update(@RequestBody UserDTO userDTO, @PathVariable Long id) {
+    public UserDTO update(@RequestBody UserDTO userDTO, @PathVariable Long id, Authentication auth) {
         return userService.update(userDTO, id);
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id, Authentication auth) {
         userService.delete(id);
     }
 }

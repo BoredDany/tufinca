@@ -2,6 +2,7 @@ package web.rent.tufinca.controllers;
 
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,31 +26,31 @@ public class ControllerProperty {
 
     @CrossOrigin
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<PropertyDTO> get() {
+    public List<PropertyDTO> get(Authentication auth) {
         return propertyService.get();
     }
     
     @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PropertyDTO get(@PathVariable Long id) {
+    public PropertyDTO get(@PathVariable Long id, Authentication auth) {
         return propertyService.get(id);
     }
     
     @CrossOrigin
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PropertyDTO save(@RequestBody PropertyDTO propertyDTO) {
+    public PropertyDTO save(@RequestBody PropertyDTO propertyDTO, Authentication auth) {
         return propertyService.save(propertyDTO);
     }
 
     @CrossOrigin
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PropertyDTO update(@RequestBody PropertyDTO propertyDTO, @PathVariable Long id) throws IllegalArgumentException{
+    public PropertyDTO update(@RequestBody PropertyDTO propertyDTO, @PathVariable Long id, Authentication auth) throws IllegalArgumentException{
         return propertyService.update(propertyDTO, id);
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id)  {
+    public void delete(@PathVariable Long id, Authentication auth)  {
         propertyService.delete(id);
     }
 }

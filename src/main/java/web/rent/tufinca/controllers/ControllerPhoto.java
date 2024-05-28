@@ -2,6 +2,7 @@ package web.rent.tufinca.controllers;
 
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,31 +27,31 @@ public class ControllerPhoto {
 
     @CrossOrigin
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<PhotoDTO> get() {
+    public List<PhotoDTO> get(Authentication auth) {
         return servicePhoto.get();
     }
     
     @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PhotoDTO get(@PathVariable Long id) {
+    public PhotoDTO get(@PathVariable Long id ,Authentication auth) {
         return servicePhoto.get(id);
     }
 
     @CrossOrigin
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PhotoDTO save(@RequestBody PhotoDTO photoDTO) { 
+    public PhotoDTO save(@RequestBody PhotoDTO photoDTO, Authentication auth) {
         return servicePhoto.save(photoDTO); 
     }
 
     @CrossOrigin
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PhotoDTO update(@RequestBody PhotoDTO photoDTO, @PathVariable Long id) throws IllegalArgumentException{ 
+    public PhotoDTO update(@RequestBody PhotoDTO photoDTO, @PathVariable Long id, Authentication auth) throws IllegalArgumentException{
         return servicePhoto.update(photoDTO, id);
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id, Authentication auth) {
         servicePhoto.delete(id);
     }
 }

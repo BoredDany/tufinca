@@ -1,11 +1,15 @@
 package web.rent.tufinca.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import web.rent.tufinca.dtos.UserDTO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,4 +36,13 @@ public class HTTPResponse {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+    public static Long getUserIDFromAuth(Authentication auth) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(auth.getPrincipal().toString(), UserDTO.class).getIdUser();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return -1L;
+        }
+    }
 }

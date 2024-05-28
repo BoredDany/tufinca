@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PutMapping;
+import web.rent.tufinca.utils.HTTPResponse;
 
 @RestController
 @RequestMapping("/grupo23/rents")
@@ -54,37 +55,37 @@ public class ControllerRent {
 
     @CrossOrigin
     @GetMapping("/")
-    public List<RentDTO> getUserRentsWhereIsOwner() {
-        return rentService.getRentsByOwnerId(tokenService.getId());
+    public List<RentDTO> getUserRentsWhereIsOwner(Authentication authentication) {
+        return rentService.getRentsByOwnerId(HTTPResponse.getUserIDFromAuth(authentication));
     }
 
     @CrossOrigin
     @GetMapping("/rented")
-    public List<RentDTO> getUserRentsWhereIsRenter() {
-        return rentService.getRentsByRenterId(tokenService.getId());
+    public List<RentDTO> getUserRentsWhereIsRenter(Authentication authentication) {
+        return rentService.getRentsByRenterId(HTTPResponse.getUserIDFromAuth(authentication));
     }
 
     @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RentDTO get(@PathVariable Long id) {
+    public RentDTO get(@PathVariable Long id, Authentication auth) {
         return rentService.get(id);
     }
 
     @CrossOrigin
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RentDTO save(@RequestBody RentDTO rentDTO) {
+    public RentDTO save(@RequestBody RentDTO rentDTO, Authentication auth) {
         return rentService.save(rentDTO);
     }
 
     @CrossOrigin
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RentDTO update(@RequestBody RentDTO rentDTO, @PathVariable Long id) throws IllegalArgumentException {
+    public RentDTO update(@RequestBody RentDTO rentDTO, @PathVariable Long id, Authentication auth) throws IllegalArgumentException {
         return rentService.update(rentDTO, id);
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id, Authentication auth) {
         rentService.delete(id);
     }
 }

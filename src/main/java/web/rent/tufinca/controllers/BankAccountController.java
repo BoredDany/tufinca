@@ -1,5 +1,6 @@
 package web.rent.tufinca.controllers;
 
+import org.springframework.security.core.Authentication;
 import web.rent.tufinca.services.BankAccountService;
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,31 +27,31 @@ public class BankAccountController {
 
     @CrossOrigin
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<BankAccountDTO> get() {
+    public List<BankAccountDTO> get(Authentication auth) {
         return bankAccountService.get();
     }
     
     @CrossOrigin
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public BankAccountDTO get(@PathVariable Long id) {
+    public BankAccountDTO get(@PathVariable Long id, Authentication auth) {
         return bankAccountService.get(id);
     }
 
     @CrossOrigin
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public BankAccountDTO save(@RequestBody BankAccountDTO bankAccountDTO) { 
+    public BankAccountDTO save(@RequestBody BankAccountDTO bankAccountDTO, Authentication auth) {
         return bankAccountService.save(bankAccountDTO); 
     }
 
     @CrossOrigin
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public BankAccountDTO update(@RequestBody BankAccountDTO bankAccountDTO, @PathVariable Long id) throws IllegalArgumentException{ 
+    public BankAccountDTO update(@RequestBody BankAccountDTO bankAccountDTO, @PathVariable Long id, Authentication auth) throws IllegalArgumentException{
         return bankAccountService.update(bankAccountDTO, id);
     }
 
     @CrossOrigin
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id, Authentication auth) {
         bankAccountService.delete(id);
     }
 
